@@ -1,15 +1,32 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { getAuthenticatedRole, devSetRole, EXISTING_LOGIN_URL } from "@/lib/auth-bridge";
-import { ROLES, ROLE_ORDER, type RoleKey } from "@/lib/roles";
+import type { RoleKey } from "@/lib/roles";
+import { HomeSidebar, ALL_MODULES } from "@/components/home/HomeSidebar";
 
 import roundLogoAsset from "@/assets/softwarevala-logo-official.jpg.asset.json";
-import { Loader2, Search } from "lucide-react";
+import { Loader2 } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   // SSR-disabled so we can read the existing client-side auth without leaking.
   ssr: false,
-  head: () => ({ meta: [{ title: "Software Vala — Redirecting…" }] }),
+  head: () => ({
+    meta: [
+      { title: "Software Vala — Module Home" },
+      {
+        name: "description",
+        content:
+          "Software Vala home: every workspace module in one sidebar — control panels, managers, portals, AMS recognition and vaults.",
+      },
+      { property: "og:title", content: "Software Vala — Module Home" },
+      {
+        property: "og:description",
+        content: "Launch any Software Vala workspace from a single sidebar with search across every module.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
+    ],
+  }),
   component: RoleBridge,
 });
 
@@ -45,91 +62,56 @@ function RoleBridge() {
     );
   }
 
-  // Not signed in — bounce to the existing login URL. While that loads,
-  // show a small dev helper so you can preview any role during wiring.
-  return <NotSignedIn onPick={(r) => {
-    devSetRole(r);
-    navigate({ to: "/dashboard/$role", params: { role: r }, replace: true });
-  }} />;
+  return (
+    <NotSignedIn
+      onPick={(r) => {
+        devSetRole(r);
+        navigate({ to: "/dashboard/$role", params: { role: r }, replace: true });
+      }}
+    />
+  );
 }
 
 function NotSignedIn({ onPick }: { onPick: (r: RoleKey) => void }) {
-  useEffect(() => {
-    // Redirect to existing auth after a beat so the dev helper is glance-able.
-    const t = setTimeout(() => {
-      // Comment this out while previewing dashboards.
-      // window.location.href = EXISTING_LOGIN_URL;
-    }, 0);
-    return () => clearTimeout(t);
-  }, []);
+  const groups = Array.from(new Set(ALL_MODULES.map((m) => m.group)));
 
   return (
-    <div className="min-h-screen grid place-items-center bg-background text-foreground p-6">
-      <div className="w-full max-w-3xl rounded-2xl border border-border bg-card p-6 shadow-card">
-        <div className="flex items-center gap-3">
-          <img src={roundLogoAsset.url} alt="" className="h-10 w-10 rounded-full ring-2 ring-white/15" />
-          <div>
-            <div className="text-sm font-semibold">Not signed in</div>
-            <div className="text-[11px] text-muted-foreground">
-              Sign in via your existing auth system to load your dashboard.
+    <div className="flex min-h-screen w-full bg-background text-foreground">
+      <HomeSidebar onPickRole={onPick} loginUrl={EXISTING_LOGIN_URL} />
+
+      <main className="flex-1 overflow-y-auto p-8">
+        <h1 className="text-2xl font-semibold tracking-tight">Software Vala workspace</h1>
+        <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
+          Not signed in yet. Every module of the ecosystem is listed in the sidebar — search it, pick a role to
+          preview a dashboard, or sign in through your existing auth system.
+        </p>
+
+        <div className="mt-6 grid gap-3 sm:grid-cols-3 max-w-2xl">
+          <Stat label="Modules" value={String(ALL_MODULES.length)} />
+          <Stat label="Groups" value={String(groups.length)} />
+          <Stat label="Session" value="Guest" />
+        </div>
+
+        <div className="mt-8 grid gap-2 sm:grid-cols-2 lg:grid-cols-3 max-w-5xl">
+          {groups.map((g) => (
+            <div key={g} className="rounded-xl border border-border bg-card p-4">
+              <div className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">{g}</div>
+              <div className="mt-1 text-sm font-semibold">
+                {ALL_MODULES.filter((m) => m.group === g).length} modules
+              </div>
             </div>
-          </div>
+          ))}
         </div>
-
-        <a
-          href={EXISTING_LOGIN_URL}
-          className="mt-5 block w-full text-center rounded-lg bg-gradient-brand text-brand-foreground px-4 py-2.5 text-sm font-semibold shadow-glow"
-        >
-          Go to login
-        </a>
-
-        <div className="mt-6 pt-4 border-t border-border">
-          <div className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground mb-2">
-            Dev preview · pick a role
-          </div>
-          <div className="grid grid-cols-4 gap-1.5">
-            {ROLE_ORDER.map((k) => (
-              <button
-                key={k}
-                onClick={() => onPick(k)}
-                className="rounded-lg bg-surface border border-border px-2 py-2 text-[11px] font-medium hover:bg-surface-2 transition"
-                title={ROLES[k].title}
-              >
-                {ROLES[k].name.split(" ")[0]}
-              </button>
-            ))}
-          </div>
-          <p className="mt-3 text-[10px] text-muted-foreground leading-relaxed">
-            This preview helper goes away once <code className="text-foreground/80">getAuthenticatedRole()</code> in
-            <code className="text-foreground/80"> src/lib/auth-bridge.ts</code> is wired to your real auth.
-          </p>
-        </div>
-
-        <ModuleSwitcher />
-      </div>
+      </main>
     </div>
   );
 }
 
-function ModuleSwitcher() {
+function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="mt-6 pt-4 border-t border-border">
-      <div className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground mb-2">
-        Module switch · all workspaces
-      </div>
-      <a
-        href="/module-switch"
-        className="flex items-center justify-between gap-3 rounded-xl border border-border bg-surface px-4 py-3 text-sm font-semibold hover:bg-surface-2 transition"
-      >
-        <span className="flex items-center gap-2">
-          <Search className="h-4 w-4 text-muted-foreground" />
-          Open the Module Switch Dashboard
-        </span>
-        <span className="text-[11px] font-medium text-muted-foreground">
-          search · favorites · recents
-        </span>
-      </a>
+    <div className="rounded-xl border border-border bg-card p-4 shadow-card">
+      <div className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">{label}</div>
+      <div className="mt-1 text-xl font-semibold">{value}</div>
     </div>
   );
 }
-
