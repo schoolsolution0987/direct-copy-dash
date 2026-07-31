@@ -52,7 +52,7 @@ export function DataTable<T extends Record<string, any>>({
   return (
     <SectionCard title={title} description={description} actions={actions} padded={false}>
       {loading ? (
-        <div className="p-5">
+        <div className="p-5" data-testid="data-table-loading">
           <LoadingState />
         </div>
       ) : list.length === 0 ? (
@@ -62,7 +62,7 @@ export function DataTable<T extends Record<string, any>>({
           action={emptyAction}
         />
       ) : (
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto" data-testid="data-table">
           <Table>
             <TableHeader>
               <TableRow>
@@ -76,6 +76,7 @@ export function DataTable<T extends Record<string, any>>({
             <TableBody>
               {list.map((row, i) => (
                 <TableRow
+                  data-testid="data-table-row"
                   key={rowKey ? rowKey(row, i) : (row.id ?? i)}
                   onClick={() => onRowClick?.(row)}
                   className={cn(onRowClick && "cursor-pointer")}

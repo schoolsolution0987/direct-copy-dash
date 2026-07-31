@@ -19,7 +19,7 @@ export function DashboardHeader({
             {kicker}
           </div>
         )}
-        <h1 className="truncate text-2xl font-bold tracking-tight text-foreground">
+        <h1 data-testid="dashboard-title" className="truncate text-2xl font-bold tracking-tight text-foreground">
           {title}
         </h1>
         {description && (
