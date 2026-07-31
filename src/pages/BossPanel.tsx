@@ -1,12 +1,5 @@
-// @ts-nocheck
-import React from 'react';
-import { BossPanelLayout } from '@/components/boss-panel/BossPanelLayout';
-import { BossPanelContent } from '@/components/boss-panel/BossPanelContent';
+import { EnterpriseModuleDashboard } from "@/components/enterprise-ui/EnterpriseModuleDashboard";
 
 export default function BossPanel() {
-  return (
-    <BossPanelLayout>
-      <BossPanelContent />
-    </BossPanelLayout>
-  );
+  return <EnterpriseModuleDashboard moduleKey="boss" />;
 }
