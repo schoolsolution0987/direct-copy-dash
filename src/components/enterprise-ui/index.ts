@@ -10,6 +10,8 @@
  */
 
 export { DashboardPage } from "./DashboardPage";
+export { ModuleDashboard } from "./ModuleDashboard";
+export type { ModuleDashboardConfig } from "./ModuleDashboard";
 export { DashboardHeader } from "./DashboardHeader";
 export { KpiCard, KpiRow } from "./Kpi";
 export { SectionCard } from "./SectionCard";
