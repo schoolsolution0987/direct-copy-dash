@@ -36,6 +36,9 @@ export function KpiCard({ item, loading }: { item: KpiItem; loading?: boolean })
   return (
     <button
       type="button"
+      data-testid="kpi-card"
+      data-kpi-key={item.key}
+      data-kpi-state={loading ? "loading" : hasValue ? "value" : "no-data"}
       onClick={item.onClick}
       disabled={!item.onClick}
       className={cn(
@@ -91,7 +94,10 @@ export function KpiCard({ item, loading }: { item: KpiItem; loading?: boolean })
 
 export function KpiRow({ items, loading }: { items: KpiItem[]; loading?: boolean }) {
   return (
-    <div className="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4 xl:grid-cols-6">
+    <div
+      data-testid="kpi-row"
+      className="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4 xl:grid-cols-6"
+    >
       {items.map((item) => (
         <KpiCard key={item.key} item={item} loading={loading} />
       ))}

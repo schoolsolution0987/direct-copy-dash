@@ -14,6 +14,7 @@ import { Route as SplatRouteImport } from './routes/$'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as VerifyCodeRouteImport } from './routes/verify.$code'
+import { Route as ModulesModuleKeyRouteImport } from './routes/modules.$moduleKey'
 import { Route as DashboardRoleRouteImport } from './routes/dashboard.$role'
 import { Route as AuthenticatedXpCrystalVaultRouteImport } from './routes/_authenticated/xp-crystal-vault'
 import { Route as AuthenticatedXpRouteImport } from './routes/_authenticated/xp'
@@ -111,6 +112,11 @@ const IndexRoute = IndexRouteImport.update({
 const VerifyCodeRoute = VerifyCodeRouteImport.update({
   id: '/verify/$code',
   path: '/verify/$code',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ModulesModuleKeyRoute = ModulesModuleKeyRouteImport.update({
+  id: '/modules/$moduleKey',
+  path: '/modules/$moduleKey',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardRoleRoute = DashboardRoleRouteImport.update({
@@ -585,6 +591,7 @@ export interface FileRoutesByFullPath {
   '/xp': typeof AuthenticatedXpRoute
   '/xp-crystal-vault': typeof AuthenticatedXpCrystalVaultRoute
   '/dashboard/$role': typeof DashboardRoleRoute
+  '/modules/$moduleKey': typeof ModulesModuleKeyRoute
   '/verify/$code': typeof VerifyCodeRoute
   '/ams/$id': typeof AuthenticatedAmsIdRoute
   '/ams/new': typeof AuthenticatedAmsNewRoute
@@ -664,6 +671,7 @@ export interface FileRoutesByTo {
   '/xp': typeof AuthenticatedXpRoute
   '/xp-crystal-vault': typeof AuthenticatedXpCrystalVaultRoute
   '/dashboard/$role': typeof DashboardRoleRoute
+  '/modules/$moduleKey': typeof ModulesModuleKeyRoute
   '/verify/$code': typeof VerifyCodeRoute
   '/ams/$id': typeof AuthenticatedAmsIdRoute
   '/ams/new': typeof AuthenticatedAmsNewRoute
@@ -746,6 +754,7 @@ export interface FileRoutesById {
   '/_authenticated/xp': typeof AuthenticatedXpRoute
   '/_authenticated/xp-crystal-vault': typeof AuthenticatedXpCrystalVaultRoute
   '/dashboard/$role': typeof DashboardRoleRoute
+  '/modules/$moduleKey': typeof ModulesModuleKeyRoute
   '/verify/$code': typeof VerifyCodeRoute
   '/_authenticated/ams/$id': typeof AuthenticatedAmsIdRoute
   '/_authenticated/ams/new': typeof AuthenticatedAmsNewRoute
@@ -828,6 +837,7 @@ export interface FileRouteTypes {
     | '/xp'
     | '/xp-crystal-vault'
     | '/dashboard/$role'
+    | '/modules/$moduleKey'
     | '/verify/$code'
     | '/ams/$id'
     | '/ams/new'
@@ -907,6 +917,7 @@ export interface FileRouteTypes {
     | '/xp'
     | '/xp-crystal-vault'
     | '/dashboard/$role'
+    | '/modules/$moduleKey'
     | '/verify/$code'
     | '/ams/$id'
     | '/ams/new'
@@ -988,6 +999,7 @@ export interface FileRouteTypes {
     | '/_authenticated/xp'
     | '/_authenticated/xp-crystal-vault'
     | '/dashboard/$role'
+    | '/modules/$moduleKey'
     | '/verify/$code'
     | '/_authenticated/ams/$id'
     | '/_authenticated/ams/new'
@@ -1020,6 +1032,7 @@ export interface RootRouteChildren {
   SplatRoute: typeof SplatRoute
   ModuleSwitchRoute: typeof ModuleSwitchRoute
   DashboardRoleRoute: typeof DashboardRoleRoute
+  ModulesModuleKeyRoute: typeof ModulesModuleKeyRoute
   VerifyCodeRoute: typeof VerifyCodeRoute
 }
 
@@ -1058,6 +1071,13 @@ declare module '@tanstack/react-router' {
       path: '/verify/$code'
       fullPath: '/verify/$code'
       preLoaderRoute: typeof VerifyCodeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/modules/$moduleKey': {
+      id: '/modules/$moduleKey'
+      path: '/modules/$moduleKey'
+      fullPath: '/modules/$moduleKey'
+      preLoaderRoute: typeof ModulesModuleKeyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard/$role': {
@@ -1772,6 +1792,7 @@ const rootRouteChildren: RootRouteChildren = {
   SplatRoute: SplatRoute,
   ModuleSwitchRoute: ModuleSwitchRoute,
   DashboardRoleRoute: DashboardRoleRoute,
+  ModulesModuleKeyRoute: ModulesModuleKeyRoute,
   VerifyCodeRoute: VerifyCodeRoute,
 }
 export const routeTree = rootRouteImport
