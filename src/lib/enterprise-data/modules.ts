@@ -1560,4 +1560,53 @@ export const MODULES: Record<string, ModuleDefinition> = {
       ],
     },
   },
+  enterprise: {
+    moduleKey: "enterprise",
+    kicker: "Enterprise",
+    title: "Enterprise Dashboard",
+    description: "Company-wide enterprise metrics and activity from live records.",
+    kpis: [
+      { key: "revenue", label: "Revenue", icon: CircleDollarSign, tone: "success" },
+      { key: "orders", label: "Orders", icon: ShoppingCart },
+      { key: "customers", label: "Customers", icon: Users },
+      { key: "modules_active", label: "Active Modules", icon: Boxes },
+      { key: "alerts", label: "Alerts", icon: Shield, tone: "warning" },
+      { key: "uptime", label: "Uptime", icon: Activity, unit: "%" },
+    ],
+    table: {
+      title: "Enterprise Activity",
+      columns: [
+        { key: "entity", header: "Entity" },
+        { key: "module", header: "Module" },
+        { key: "amount", header: "Amount" },
+        { key: "status", header: "Status" },
+        { key: "updated_at", header: "Updated" },
+      ],
+    },
+  },
+  "reseller-portal": {
+    moduleKey: "reseller",
+    kicker: "Partners",
+    title: "Reseller Portal",
+    description: "Reseller sales, commissions and client records from live data.",
+    kpis: [
+      { key: "clients", label: "Clients", icon: Users },
+      { key: "sales", label: "Sales", icon: ShoppingCart },
+      { key: "revenue", label: "Revenue", icon: CircleDollarSign, tone: "success" },
+      { key: "commission", label: "Commission", icon: Wallet },
+      { key: "pending", label: "Pending", icon: Clock, tone: "warning" },
+      { key: "conversion", label: "Conversion", icon: TrendingUp, unit: "%" },
+    ],
+    table: {
+      title: "Reseller Records",
+      columns: [
+        { key: "client", header: "Client" },
+        { key: "plan", header: "Plan" },
+        { key: "amount", header: "Amount" },
+        { key: "commission", header: "Commission" },
+        { key: "status", header: "Status" },
+      ],
+    },
+  },
 };
+
