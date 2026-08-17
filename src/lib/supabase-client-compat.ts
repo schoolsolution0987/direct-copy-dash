@@ -8,7 +8,11 @@
  */
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { supabase as generatedSupabase } from "../integrations/supabase/client";
-import type { Database } from "./supabase-types-compat";
 
-export const supabase = generatedSupabase as unknown as SupabaseClient<Database>;
+/**
+ * Typed loosely on purpose: the merged module schema type is ~25k lines and
+ * instantiating it through PostgREST generics in every call site made the
+ * project-wide typecheck time out. Runtime behaviour is unchanged.
+ */
+export const supabase = generatedSupabase as unknown as SupabaseClient;
 export default supabase;
