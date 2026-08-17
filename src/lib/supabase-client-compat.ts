@@ -6,13 +6,14 @@
  * feature modules type-check while the auto-generated integration files stay
  * untouched.
  */
-import type { SupabaseClient } from "@supabase/supabase-js";
 import { supabase as generatedSupabase } from "../integrations/supabase/client";
 
 /**
- * Typed loosely on purpose: the merged module schema type is ~25k lines and
- * instantiating it through PostgREST generics in every call site made the
- * project-wide typecheck time out. Runtime behaviour is unchanged.
+ * Deliberately erase the generated PostgREST builder type at this compatibility
+ * boundary. Even `SupabaseClient` without a Database generic still parses every
+ * `.select("...")` literal and re-instantiates the query type through chained
+ * filters across hundreds of merged call sites. Runtime behaviour is unchanged.
  */
-export const supabase = generatedSupabase as unknown as SupabaseClient;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const supabase: any = generatedSupabase;
 export default supabase;

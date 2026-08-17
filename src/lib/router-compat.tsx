@@ -18,12 +18,32 @@ export { TanstackOutlet as Outlet };
 
 type To = string | { pathname?: string; search?: string; hash?: string };
 
+interface CompatLocation {
+  pathname: string;
+  search: string;
+  hash: string;
+  state: Record<string, unknown>;
+  key: string;
+}
+
+type NavigateOptions = { replace?: boolean; state?: unknown };
+type NavigateFunction = (to: To | number, options?: NavigateOptions) => void;
+
+interface CompatRouter {
+  history: { go: (delta: number) => void };
+  navigate: (options: { href: string; replace?: boolean; state?: never }) => void;
+}
+
+function useCompatRouter(): CompatRouter {
+  return useRouter() as unknown as CompatRouter;
+}
+
 function toHref(to: To): string {
   if (typeof to === "string") return to;
   return `${to.pathname ?? ""}${to.search ?? ""}${to.hash ?? ""}`;
 }
 
-export function useLocation() {
+export function useLocation(): CompatLocation {
   const location = useRouterState({ select: (s) => s.location });
   return {
     pathname: location.pathname,
@@ -34,8 +54,8 @@ export function useLocation() {
   };
 }
 
-export function useNavigate() {
-  const router = useRouter();
+export function useNavigate(): NavigateFunction {
+  const router = useCompatRouter();
   return React.useCallback(
     (to: To | number, options?: { replace?: boolean; state?: unknown }) => {
       if (typeof to === "number") {
@@ -54,7 +74,7 @@ export function useParams<T extends Record<string, string | undefined> = Record<
 
 
 export function useSearchParams(): [URLSearchParams, (next: URLSearchParams | Record<string, string>, options?: { replace?: boolean }) => void] {
-  const router = useRouter();
+  const router = useCompatRouter();
   const location = useLocation();
   const params = React.useMemo(() => new URLSearchParams(location.search), [location.search]);
   const setParams = React.useCallback(
@@ -78,7 +98,7 @@ export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(function Link
   { to, replace, state, onClick, target, children, ...rest },
   ref,
 ) {
-  const router = useRouter();
+  const router = useCompatRouter();
   const href = toHref(to);
   return (
     <a
