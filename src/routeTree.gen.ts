@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as TeamChatRouteImport } from './routes/team-chat'
 import { Route as ModuleSwitchRouteImport } from './routes/module-switch'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as SplatRouteImport } from './routes/$'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
@@ -109,6 +110,11 @@ const ModuleSwitchRoute = ModuleSwitchRouteImport.update({
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SplatRoute = SplatRouteImport.update({
@@ -575,6 +581,7 @@ const AuthenticatedAwardsIdEditRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
+  '/contact': typeof ContactRoute
   '/login': typeof LoginRoute
   '/module-switch': typeof ModuleSwitchRoute
   '/team-chat': typeof TeamChatRoute
@@ -662,6 +669,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
+  '/contact': typeof ContactRoute
   '/login': typeof LoginRoute
   '/module-switch': typeof ModuleSwitchRoute
   '/team-chat': typeof TeamChatRoute
@@ -750,6 +758,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/$': typeof SplatRoute
+  '/contact': typeof ContactRoute
   '/login': typeof LoginRoute
   '/module-switch': typeof ModuleSwitchRoute
   '/team-chat': typeof TeamChatRoute
@@ -839,6 +848,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/$'
+    | '/contact'
     | '/login'
     | '/module-switch'
     | '/team-chat'
@@ -926,6 +936,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/$'
+    | '/contact'
     | '/login'
     | '/module-switch'
     | '/team-chat'
@@ -1013,6 +1024,7 @@ export interface FileRouteTypes {
     | '/'
     | '/_authenticated'
     | '/$'
+    | '/contact'
     | '/login'
     | '/module-switch'
     | '/team-chat'
@@ -1102,6 +1114,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   SplatRoute: typeof SplatRoute
+  ContactRoute: typeof ContactRoute
   LoginRoute: typeof LoginRoute
   ModuleSwitchRoute: typeof ModuleSwitchRoute
   TeamChatRoute: typeof TeamChatRoute
@@ -1135,6 +1148,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$': {
@@ -1910,6 +1930,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   SplatRoute: SplatRoute,
+  ContactRoute: ContactRoute,
   LoginRoute: LoginRoute,
   ModuleSwitchRoute: ModuleSwitchRoute,
   TeamChatRoute: TeamChatRoute,
