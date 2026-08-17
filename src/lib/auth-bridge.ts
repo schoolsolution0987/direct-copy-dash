@@ -60,7 +60,11 @@ export async function getAuthenticatedRole(): Promise<RoleKey | null> {
     // Session created by the Nexus OS login page (demo directory).
     const demo = readSession();
     if (!demo) return null;
-    return readOverride() ?? (isDbRole(demo.role) ? DB_TO_DASHBOARD[demo.role] : "author");
+    // The demo directory role is authoritative; a stale override must not
+    // route (for example) a reseller into someone else's workspace.
+    const demoRole = isDbRole(demo.role) ? DB_TO_DASHBOARD[demo.role] : null;
+    if (demoRole) return demoRole;
+    return readOverride() ?? "author";
   }
 
 

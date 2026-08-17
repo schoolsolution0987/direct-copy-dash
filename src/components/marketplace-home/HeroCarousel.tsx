@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { useNavigate } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import {
@@ -16,6 +17,7 @@ const ICONS: Record<string, LucideIcon> = {
 
 const HeroCarousel = () => {
   const { data: slides } = useSuspenseQuery(heroPublicQuery());
+  const navigate = useNavigate();
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState(1);
   const [paused, setPaused] = useState(false);
@@ -55,7 +57,21 @@ const HeroCarousel = () => {
 
         <div
           key={product.id}
-          className={`hero-premium relative isolate w-full bg-gradient-to-br ${product.gradient} py-16 sm:py-20 lg:py-24 animate-[hero-reveal_.55s_cubic-bezier(.22,1,.36,1)]`}
+          role="link"
+          tabIndex={0}
+          aria-label={`Open home page — ${product.title}`}
+          data-testid="hero-carousel-slide"
+          onClick={(e) => {
+            if ((e.target as HTMLElement).closest("a,button")) return;
+            void navigate({ to: "/" });
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              void navigate({ to: "/" });
+            }
+          }}
+          className={`cursor-pointer hero-premium relative isolate w-full bg-gradient-to-br ${product.gradient} py-16 sm:py-20 lg:py-24 animate-[hero-reveal_.55s_cubic-bezier(.22,1,.36,1)]`}
         >
 
 
