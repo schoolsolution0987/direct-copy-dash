@@ -9,11 +9,14 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TeamChatRouteImport } from './routes/team-chat'
 import { Route as ModuleSwitchRouteImport } from './routes/module-switch'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as SplatRouteImport } from './routes/$'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as VerifyCodeRouteImport } from './routes/verify.$code'
+import { Route as QrApproveTokenRouteImport } from './routes/qr-approve.$token'
 import { Route as ModulesModuleKeyRouteImport } from './routes/modules.$moduleKey'
 import { Route as DashboardRoleRouteImport } from './routes/dashboard.$role'
 import { Route as AuthenticatedXpCrystalVaultRouteImport } from './routes/_authenticated/xp-crystal-vault'
@@ -90,9 +93,19 @@ import { Route as AuthenticatedAwardsLibrariesBadgesRouteImport } from './routes
 import { Route as AuthenticatedAwardsLibrariesAchievementsRouteImport } from './routes/_authenticated/awards.libraries.achievements'
 import { Route as AuthenticatedAwardsIdEditRouteImport } from './routes/_authenticated/awards.$id.edit'
 
+const TeamChatRoute = TeamChatRouteImport.update({
+  id: '/team-chat',
+  path: '/team-chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ModuleSwitchRoute = ModuleSwitchRouteImport.update({
   id: '/module-switch',
   path: '/module-switch',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SplatRoute = SplatRouteImport.update({
@@ -112,6 +125,11 @@ const IndexRoute = IndexRouteImport.update({
 const VerifyCodeRoute = VerifyCodeRouteImport.update({
   id: '/verify/$code',
   path: '/verify/$code',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QrApproveTokenRoute = QrApproveTokenRouteImport.update({
+  id: '/qr-approve/$token',
+  path: '/qr-approve/$token',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ModulesModuleKeyRoute = ModulesModuleKeyRouteImport.update({
@@ -539,7 +557,9 @@ const AuthenticatedAwardsIdEditRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
+  '/login': typeof LoginRoute
   '/module-switch': typeof ModuleSwitchRoute
+  '/team-chat': typeof TeamChatRoute
   '/achievement-vault': typeof AuthenticatedAchievementVaultRoute
   '/achievements': typeof AuthenticatedAchievementsRoute
   '/ai': typeof AuthenticatedAiRoute
@@ -592,6 +612,7 @@ export interface FileRoutesByFullPath {
   '/xp-crystal-vault': typeof AuthenticatedXpCrystalVaultRoute
   '/dashboard/$role': typeof DashboardRoleRoute
   '/modules/$moduleKey': typeof ModulesModuleKeyRoute
+  '/qr-approve/$token': typeof QrApproveTokenRoute
   '/verify/$code': typeof VerifyCodeRoute
   '/ams/$id': typeof AuthenticatedAmsIdRoute
   '/ams/new': typeof AuthenticatedAmsNewRoute
@@ -620,7 +641,9 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
+  '/login': typeof LoginRoute
   '/module-switch': typeof ModuleSwitchRoute
+  '/team-chat': typeof TeamChatRoute
   '/achievement-vault': typeof AuthenticatedAchievementVaultRoute
   '/achievements': typeof AuthenticatedAchievementsRoute
   '/ai': typeof AuthenticatedAiRoute
@@ -672,6 +695,7 @@ export interface FileRoutesByTo {
   '/xp-crystal-vault': typeof AuthenticatedXpCrystalVaultRoute
   '/dashboard/$role': typeof DashboardRoleRoute
   '/modules/$moduleKey': typeof ModulesModuleKeyRoute
+  '/qr-approve/$token': typeof QrApproveTokenRoute
   '/verify/$code': typeof VerifyCodeRoute
   '/ams/$id': typeof AuthenticatedAmsIdRoute
   '/ams/new': typeof AuthenticatedAmsNewRoute
@@ -702,7 +726,9 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/$': typeof SplatRoute
+  '/login': typeof LoginRoute
   '/module-switch': typeof ModuleSwitchRoute
+  '/team-chat': typeof TeamChatRoute
   '/_authenticated/achievement-vault': typeof AuthenticatedAchievementVaultRoute
   '/_authenticated/achievements': typeof AuthenticatedAchievementsRoute
   '/_authenticated/ai': typeof AuthenticatedAiRoute
@@ -755,6 +781,7 @@ export interface FileRoutesById {
   '/_authenticated/xp-crystal-vault': typeof AuthenticatedXpCrystalVaultRoute
   '/dashboard/$role': typeof DashboardRoleRoute
   '/modules/$moduleKey': typeof ModulesModuleKeyRoute
+  '/qr-approve/$token': typeof QrApproveTokenRoute
   '/verify/$code': typeof VerifyCodeRoute
   '/_authenticated/ams/$id': typeof AuthenticatedAmsIdRoute
   '/_authenticated/ams/new': typeof AuthenticatedAmsNewRoute
@@ -785,7 +812,9 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/$'
+    | '/login'
     | '/module-switch'
+    | '/team-chat'
     | '/achievement-vault'
     | '/achievements'
     | '/ai'
@@ -838,6 +867,7 @@ export interface FileRouteTypes {
     | '/xp-crystal-vault'
     | '/dashboard/$role'
     | '/modules/$moduleKey'
+    | '/qr-approve/$token'
     | '/verify/$code'
     | '/ams/$id'
     | '/ams/new'
@@ -866,7 +896,9 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/$'
+    | '/login'
     | '/module-switch'
+    | '/team-chat'
     | '/achievement-vault'
     | '/achievements'
     | '/ai'
@@ -918,6 +950,7 @@ export interface FileRouteTypes {
     | '/xp-crystal-vault'
     | '/dashboard/$role'
     | '/modules/$moduleKey'
+    | '/qr-approve/$token'
     | '/verify/$code'
     | '/ams/$id'
     | '/ams/new'
@@ -947,7 +980,9 @@ export interface FileRouteTypes {
     | '/'
     | '/_authenticated'
     | '/$'
+    | '/login'
     | '/module-switch'
+    | '/team-chat'
     | '/_authenticated/achievement-vault'
     | '/_authenticated/achievements'
     | '/_authenticated/ai'
@@ -1000,6 +1035,7 @@ export interface FileRouteTypes {
     | '/_authenticated/xp-crystal-vault'
     | '/dashboard/$role'
     | '/modules/$moduleKey'
+    | '/qr-approve/$token'
     | '/verify/$code'
     | '/_authenticated/ams/$id'
     | '/_authenticated/ams/new'
@@ -1030,19 +1066,36 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   SplatRoute: typeof SplatRoute
+  LoginRoute: typeof LoginRoute
   ModuleSwitchRoute: typeof ModuleSwitchRoute
+  TeamChatRoute: typeof TeamChatRoute
   DashboardRoleRoute: typeof DashboardRoleRoute
   ModulesModuleKeyRoute: typeof ModulesModuleKeyRoute
+  QrApproveTokenRoute: typeof QrApproveTokenRoute
   VerifyCodeRoute: typeof VerifyCodeRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/team-chat': {
+      id: '/team-chat'
+      path: '/team-chat'
+      fullPath: '/team-chat'
+      preLoaderRoute: typeof TeamChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/module-switch': {
       id: '/module-switch'
       path: '/module-switch'
       fullPath: '/module-switch'
       preLoaderRoute: typeof ModuleSwitchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$': {
@@ -1071,6 +1124,13 @@ declare module '@tanstack/react-router' {
       path: '/verify/$code'
       fullPath: '/verify/$code'
       preLoaderRoute: typeof VerifyCodeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/qr-approve/$token': {
+      id: '/qr-approve/$token'
+      path: '/qr-approve/$token'
+      fullPath: '/qr-approve/$token'
+      preLoaderRoute: typeof QrApproveTokenRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/modules/$moduleKey': {
@@ -1790,9 +1850,12 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   SplatRoute: SplatRoute,
+  LoginRoute: LoginRoute,
   ModuleSwitchRoute: ModuleSwitchRoute,
+  TeamChatRoute: TeamChatRoute,
   DashboardRoleRoute: DashboardRoleRoute,
   ModulesModuleKeyRoute: ModulesModuleKeyRoute,
+  QrApproveTokenRoute: QrApproveTokenRoute,
   VerifyCodeRoute: VerifyCodeRoute,
 }
 export const routeTree = rootRouteImport

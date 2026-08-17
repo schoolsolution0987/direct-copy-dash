@@ -2,7 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
-export const Route = createFileRoute("/chat")({
+export const Route = createFileRoute("/team-chat")({
   head: () => ({
     meta: [
       { title: "Internal Chat · Software Vala Nexus OS" },
