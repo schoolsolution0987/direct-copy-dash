@@ -11,7 +11,9 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TeamChatRouteImport } from './routes/team-chat'
 import { Route as ModuleSwitchRouteImport } from './routes/module-switch'
+import { Route as MarketplaceRouteImport } from './routes/marketplace'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as SplatRouteImport } from './routes/$'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
@@ -106,9 +108,19 @@ const ModuleSwitchRoute = ModuleSwitchRouteImport.update({
   path: '/module-switch',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MarketplaceRoute = MarketplaceRouteImport.update({
+  id: '/marketplace',
+  path: '/marketplace',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SplatRoute = SplatRouteImport.update({
@@ -575,7 +587,9 @@ const AuthenticatedAwardsIdEditRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
+  '/contact': typeof ContactRoute
   '/login': typeof LoginRoute
+  '/marketplace': typeof MarketplaceRoute
   '/module-switch': typeof ModuleSwitchRoute
   '/team-chat': typeof TeamChatRoute
   '/achievement-vault': typeof AuthenticatedAchievementVaultRoute
@@ -662,7 +676,9 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
+  '/contact': typeof ContactRoute
   '/login': typeof LoginRoute
+  '/marketplace': typeof MarketplaceRoute
   '/module-switch': typeof ModuleSwitchRoute
   '/team-chat': typeof TeamChatRoute
   '/achievement-vault': typeof AuthenticatedAchievementVaultRoute
@@ -750,7 +766,9 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/$': typeof SplatRoute
+  '/contact': typeof ContactRoute
   '/login': typeof LoginRoute
+  '/marketplace': typeof MarketplaceRoute
   '/module-switch': typeof ModuleSwitchRoute
   '/team-chat': typeof TeamChatRoute
   '/_authenticated/achievement-vault': typeof AuthenticatedAchievementVaultRoute
@@ -839,7 +857,9 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/$'
+    | '/contact'
     | '/login'
+    | '/marketplace'
     | '/module-switch'
     | '/team-chat'
     | '/achievement-vault'
@@ -926,7 +946,9 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/$'
+    | '/contact'
     | '/login'
+    | '/marketplace'
     | '/module-switch'
     | '/team-chat'
     | '/achievement-vault'
@@ -1013,7 +1035,9 @@ export interface FileRouteTypes {
     | '/'
     | '/_authenticated'
     | '/$'
+    | '/contact'
     | '/login'
+    | '/marketplace'
     | '/module-switch'
     | '/team-chat'
     | '/_authenticated/achievement-vault'
@@ -1102,7 +1126,9 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   SplatRoute: typeof SplatRoute
+  ContactRoute: typeof ContactRoute
   LoginRoute: typeof LoginRoute
+  MarketplaceRoute: typeof MarketplaceRoute
   ModuleSwitchRoute: typeof ModuleSwitchRoute
   TeamChatRoute: typeof TeamChatRoute
   AdminApplicationsRoute: typeof AdminApplicationsRoute
@@ -1130,11 +1156,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ModuleSwitchRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/marketplace': {
+      id: '/marketplace'
+      path: '/marketplace'
+      fullPath: '/marketplace'
+      preLoaderRoute: typeof MarketplaceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/login': {
       id: '/login'
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$': {
@@ -1910,7 +1950,9 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   SplatRoute: SplatRoute,
+  ContactRoute: ContactRoute,
   LoginRoute: LoginRoute,
+  MarketplaceRoute: MarketplaceRoute,
   ModuleSwitchRoute: ModuleSwitchRoute,
   TeamChatRoute: TeamChatRoute,
   AdminApplicationsRoute: AdminApplicationsRoute,

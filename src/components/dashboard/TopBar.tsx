@@ -1,6 +1,6 @@
-import { Search, Bell, MessageSquare, Sparkles, Wallet, Trophy, Zap, ChevronDown, Store, User, Settings, LogOut, Repeat, Check, Plus, Award, Hourglass, Coins, TrendingUp, Link2, QrCode, BadgeCheck } from "lucide-react";
+import { Search, Bell, MessageSquare, Sparkles, Wallet, Trophy, Zap, ChevronDown, Store, User, Settings, LogOut, Repeat, Check, Plus, Award, Hourglass, Coins, TrendingUp, Link2, QrCode, BadgeCheck, Home, Mail } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { LogoButton } from "./LogoButton";
 import { signOut } from "@/lib/auth-bridge";
 import { ROLES, ROLE_ORDER, type RoleConfig, type RoleKey } from "@/lib/roles";
@@ -10,11 +10,33 @@ export function TopBar({ role, onSwitchRole, onOpenAIChat, onOpenModule }: { rol
     <header className="sticky top-0 z-30 flex items-center gap-3 border-b border-border bg-background/80 backdrop-blur px-4 lg:px-6 h-16">
       <LogoButton />
 
-      {/* Marketplace quick return */}
-      <button className="hidden md:inline-flex items-center gap-2 rounded-lg bg-surface px-3 py-2 text-xs font-medium text-foreground/90 hover:bg-surface-2 transition border border-border">
-        <Store className="h-3.5 w-3.5" />
-        Marketplace
-      </button>
+      {/* Public site quick links */}
+      <nav className="hidden md:flex items-center gap-1.5" aria-label="Public site">
+        <Link
+          to="/"
+          data-testid="topbar-home-link"
+          className="inline-flex items-center gap-2 rounded-lg bg-surface px-3 py-2 text-xs font-medium text-foreground/90 hover:bg-surface-2 transition border border-border"
+        >
+          <Home className="h-3.5 w-3.5" />
+          Home Page
+        </Link>
+        <Link
+          to="/marketplace"
+          data-testid="topbar-marketplace-link"
+          className="inline-flex items-center gap-2 rounded-lg bg-surface px-3 py-2 text-xs font-medium text-foreground/90 hover:bg-surface-2 transition border border-border"
+        >
+          <Store className="h-3.5 w-3.5" />
+          Marketplace
+        </Link>
+        <Link
+          to="/contact"
+          data-testid="topbar-contact-link"
+          className="inline-flex items-center gap-2 rounded-lg bg-surface px-3 py-2 text-xs font-medium text-foreground/90 hover:bg-surface-2 transition border border-border"
+        >
+          <Mail className="h-3.5 w-3.5" />
+          Contact
+        </Link>
+      </nav>
 
       {/* Search */}
       <div className="relative flex-1 max-w-2xl">
