@@ -62,6 +62,7 @@ const HeroCarousel = () => {
           aria-label={`Open home page — ${product.title}`}
           data-testid="hero-carousel-slide"
           onClick={(e) => {
+            console.log("HERO CLICK", (e.target as HTMLElement).tagName);
             if ((e.target as HTMLElement).closest("a,button")) return;
             void navigate({ to: "/" });
           }}
