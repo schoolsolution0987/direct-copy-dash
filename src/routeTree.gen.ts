@@ -15,10 +15,13 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as SplatRouteImport } from './routes/$'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApplyIndexRouteImport } from './routes/apply.index'
 import { Route as VerifyCodeRouteImport } from './routes/verify.$code'
 import { Route as QrApproveTokenRouteImport } from './routes/qr-approve.$token'
 import { Route as ModulesModuleKeyRouteImport } from './routes/modules.$moduleKey'
 import { Route as DashboardRoleRouteImport } from './routes/dashboard.$role'
+import { Route as ApplyRoleRouteImport } from './routes/apply.$role'
+import { Route as AdminApplicationsRouteImport } from './routes/admin.applications'
 import { Route as AuthenticatedXpCrystalVaultRouteImport } from './routes/_authenticated/xp-crystal-vault'
 import { Route as AuthenticatedXpRouteImport } from './routes/_authenticated/xp'
 import { Route as AuthenticatedVerificationVaultRouteImport } from './routes/_authenticated/verification-vault'
@@ -122,6 +125,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApplyIndexRoute = ApplyIndexRouteImport.update({
+  id: '/apply/',
+  path: '/apply/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const VerifyCodeRoute = VerifyCodeRouteImport.update({
   id: '/verify/$code',
   path: '/verify/$code',
@@ -140,6 +148,16 @@ const ModulesModuleKeyRoute = ModulesModuleKeyRouteImport.update({
 const DashboardRoleRoute = DashboardRoleRouteImport.update({
   id: '/dashboard/$role',
   path: '/dashboard/$role',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApplyRoleRoute = ApplyRoleRouteImport.update({
+  id: '/apply/$role',
+  path: '/apply/$role',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminApplicationsRoute = AdminApplicationsRouteImport.update({
+  id: '/admin/applications',
+  path: '/admin/applications',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedXpCrystalVaultRoute =
@@ -610,10 +628,13 @@ export interface FileRoutesByFullPath {
   '/verification-vault': typeof AuthenticatedVerificationVaultRoute
   '/xp': typeof AuthenticatedXpRoute
   '/xp-crystal-vault': typeof AuthenticatedXpCrystalVaultRoute
+  '/admin/applications': typeof AdminApplicationsRoute
+  '/apply/$role': typeof ApplyRoleRoute
   '/dashboard/$role': typeof DashboardRoleRoute
   '/modules/$moduleKey': typeof ModulesModuleKeyRoute
   '/qr-approve/$token': typeof QrApproveTokenRoute
   '/verify/$code': typeof VerifyCodeRoute
+  '/apply/': typeof ApplyIndexRoute
   '/ams/$id': typeof AuthenticatedAmsIdRoute
   '/ams/new': typeof AuthenticatedAmsNewRoute
   '/awards/$id': typeof AuthenticatedAwardsIdRouteWithChildren
@@ -693,10 +714,13 @@ export interface FileRoutesByTo {
   '/verification-vault': typeof AuthenticatedVerificationVaultRoute
   '/xp': typeof AuthenticatedXpRoute
   '/xp-crystal-vault': typeof AuthenticatedXpCrystalVaultRoute
+  '/admin/applications': typeof AdminApplicationsRoute
+  '/apply/$role': typeof ApplyRoleRoute
   '/dashboard/$role': typeof DashboardRoleRoute
   '/modules/$moduleKey': typeof ModulesModuleKeyRoute
   '/qr-approve/$token': typeof QrApproveTokenRoute
   '/verify/$code': typeof VerifyCodeRoute
+  '/apply': typeof ApplyIndexRoute
   '/ams/$id': typeof AuthenticatedAmsIdRoute
   '/ams/new': typeof AuthenticatedAmsNewRoute
   '/awards/$id': typeof AuthenticatedAwardsIdRouteWithChildren
@@ -779,10 +803,13 @@ export interface FileRoutesById {
   '/_authenticated/verification-vault': typeof AuthenticatedVerificationVaultRoute
   '/_authenticated/xp': typeof AuthenticatedXpRoute
   '/_authenticated/xp-crystal-vault': typeof AuthenticatedXpCrystalVaultRoute
+  '/admin/applications': typeof AdminApplicationsRoute
+  '/apply/$role': typeof ApplyRoleRoute
   '/dashboard/$role': typeof DashboardRoleRoute
   '/modules/$moduleKey': typeof ModulesModuleKeyRoute
   '/qr-approve/$token': typeof QrApproveTokenRoute
   '/verify/$code': typeof VerifyCodeRoute
+  '/apply/': typeof ApplyIndexRoute
   '/_authenticated/ams/$id': typeof AuthenticatedAmsIdRoute
   '/_authenticated/ams/new': typeof AuthenticatedAmsNewRoute
   '/_authenticated/awards/$id': typeof AuthenticatedAwardsIdRouteWithChildren
@@ -865,10 +892,13 @@ export interface FileRouteTypes {
     | '/verification-vault'
     | '/xp'
     | '/xp-crystal-vault'
+    | '/admin/applications'
+    | '/apply/$role'
     | '/dashboard/$role'
     | '/modules/$moduleKey'
     | '/qr-approve/$token'
     | '/verify/$code'
+    | '/apply/'
     | '/ams/$id'
     | '/ams/new'
     | '/awards/$id'
@@ -948,10 +978,13 @@ export interface FileRouteTypes {
     | '/verification-vault'
     | '/xp'
     | '/xp-crystal-vault'
+    | '/admin/applications'
+    | '/apply/$role'
     | '/dashboard/$role'
     | '/modules/$moduleKey'
     | '/qr-approve/$token'
     | '/verify/$code'
+    | '/apply'
     | '/ams/$id'
     | '/ams/new'
     | '/awards/$id'
@@ -1033,10 +1066,13 @@ export interface FileRouteTypes {
     | '/_authenticated/verification-vault'
     | '/_authenticated/xp'
     | '/_authenticated/xp-crystal-vault'
+    | '/admin/applications'
+    | '/apply/$role'
     | '/dashboard/$role'
     | '/modules/$moduleKey'
     | '/qr-approve/$token'
     | '/verify/$code'
+    | '/apply/'
     | '/_authenticated/ams/$id'
     | '/_authenticated/ams/new'
     | '/_authenticated/awards/$id'
@@ -1069,10 +1105,13 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   ModuleSwitchRoute: typeof ModuleSwitchRoute
   TeamChatRoute: typeof TeamChatRoute
+  AdminApplicationsRoute: typeof AdminApplicationsRoute
+  ApplyRoleRoute: typeof ApplyRoleRoute
   DashboardRoleRoute: typeof DashboardRoleRoute
   ModulesModuleKeyRoute: typeof ModulesModuleKeyRoute
   QrApproveTokenRoute: typeof QrApproveTokenRoute
   VerifyCodeRoute: typeof VerifyCodeRoute
+  ApplyIndexRoute: typeof ApplyIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -1119,6 +1158,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/apply/': {
+      id: '/apply/'
+      path: '/apply'
+      fullPath: '/apply/'
+      preLoaderRoute: typeof ApplyIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/verify/$code': {
       id: '/verify/$code'
       path: '/verify/$code'
@@ -1145,6 +1191,20 @@ declare module '@tanstack/react-router' {
       path: '/dashboard/$role'
       fullPath: '/dashboard/$role'
       preLoaderRoute: typeof DashboardRoleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/apply/$role': {
+      id: '/apply/$role'
+      path: '/apply/$role'
+      fullPath: '/apply/$role'
+      preLoaderRoute: typeof ApplyRoleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/applications': {
+      id: '/admin/applications'
+      path: '/admin/applications'
+      fullPath: '/admin/applications'
+      preLoaderRoute: typeof AdminApplicationsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/xp-crystal-vault': {
@@ -1853,10 +1913,13 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   ModuleSwitchRoute: ModuleSwitchRoute,
   TeamChatRoute: TeamChatRoute,
+  AdminApplicationsRoute: AdminApplicationsRoute,
+  ApplyRoleRoute: ApplyRoleRoute,
   DashboardRoleRoute: DashboardRoleRoute,
   ModulesModuleKeyRoute: ModulesModuleKeyRoute,
   QrApproveTokenRoute: QrApproveTokenRoute,
   VerifyCodeRoute: VerifyCodeRoute,
+  ApplyIndexRoute: ApplyIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

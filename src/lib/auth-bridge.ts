@@ -2,6 +2,7 @@ import type { RoleKey } from "@/lib/roles";
 import { isRoleKey } from "@/lib/roles";
 import { isRoleKey as isDbRole, type RoleKey as DbRoleKey } from "@/lib/auth-roles";
 import { supabase } from "@/integrations/supabase/client";
+import { readSession } from "@/lib/nexus-auth";
 
 /**
  * Real auth bridge — Supabase session + `user_roles` table.
@@ -55,7 +56,13 @@ function readOverride(): RoleKey | null {
 export async function getAuthenticatedRole(): Promise<RoleKey | null> {
   const { data: userData } = await supabase.auth.getUser();
   const user = userData?.user;
-  if (!user) return null;
+  if (!user) {
+    // Session created by the Nexus OS login page (demo directory).
+    const demo = readSession();
+    if (!demo) return null;
+    return readOverride() ?? (isDbRole(demo.role) ? DB_TO_DASHBOARD[demo.role] : "author");
+  }
+
 
   // Prefer the role selected on the login page for this session.
   const override = readOverride();
