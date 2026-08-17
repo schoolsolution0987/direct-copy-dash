@@ -62,7 +62,6 @@ const HeroCarousel = () => {
           aria-label={`Open home page — ${product.title}`}
           data-testid="hero-carousel-slide"
           onClick={(e) => {
-            console.log("HERO CLICK", (e.target as HTMLElement).tagName);
             if ((e.target as HTMLElement).closest("a,button")) return;
             void navigate({ to: "/" });
           }}
@@ -74,7 +73,13 @@ const HeroCarousel = () => {
           }}
           className={`cursor-pointer hero-premium relative isolate w-full bg-gradient-to-br ${product.gradient} py-16 sm:py-20 lg:py-24 animate-[hero-reveal_.55s_cubic-bezier(.22,1,.36,1)]`}
         >
-
+          {/* Opening the hero carousel takes you to the home page. */}
+          <a
+            href="/"
+            aria-label={`Open home page — ${product.title}`}
+            data-testid="hero-carousel-link"
+            className="absolute inset-0 z-20"
+          />
 
           <div className="hero-content relative z-10 max-w-6xl mx-auto px-4 text-center">
             <motion.div
@@ -115,7 +120,7 @@ const HeroCarousel = () => {
               initial={false}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.45 }}
-              className="flex flex-col sm:flex-row gap-3 justify-center"
+              className="relative z-30 flex flex-col sm:flex-row gap-3 justify-center"
             >
               <a
                 href={product.cta_link}
@@ -135,14 +140,14 @@ const HeroCarousel = () => {
           </div>
         </div>
 
-      <button data-no-3d aria-label="Previous slide" onClick={prev} className="sv-icon-btn absolute left-4 top-1/2 -translate-y-1/2 z-20 !h-12 !w-12">
+      <button data-no-3d aria-label="Previous slide" onClick={prev} className="sv-icon-btn absolute left-4 top-1/2 -translate-y-1/2 z-30 !h-12 !w-12">
         <ChevronLeft className="w-6 h-6" />
       </button>
-      <button data-no-3d aria-label="Next slide" onClick={next} className="sv-icon-btn absolute right-4 top-1/2 -translate-y-1/2 z-20 !h-12 !w-12">
+      <button data-no-3d aria-label="Next slide" onClick={next} className="sv-icon-btn absolute right-4 top-1/2 -translate-y-1/2 z-30 !h-12 !w-12">
         <ChevronRight className="w-6 h-6" />
       </button>
 
-      <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-20 flex gap-2">
+      <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-30 flex gap-2">
         {slides.map((_, i) => (
           <button
             key={i}
