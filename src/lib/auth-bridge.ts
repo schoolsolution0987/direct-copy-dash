@@ -2,6 +2,7 @@ import type { RoleKey } from "@/lib/roles";
 import { isRoleKey } from "@/lib/roles";
 import { isRoleKey as isDbRole, type RoleKey as DbRoleKey } from "@/lib/auth-roles";
 import { supabase } from "@/integrations/supabase/client";
+import { readSession } from "@/lib/nexus-auth";
 
 /**
  * Real auth bridge — Supabase session + `user_roles` table.
