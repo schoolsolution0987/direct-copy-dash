@@ -11,9 +11,11 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TeamChatRouteImport } from './routes/team-chat'
 import { Route as ModuleSwitchRouteImport } from './routes/module-switch'
+import { Route as MarketplaceManagerRouteImport } from './routes/marketplace-manager'
 import { Route as MarketplaceRouteImport } from './routes/marketplace'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as BossPanelRouteImport } from './routes/boss-panel'
 import { Route as SplatRouteImport } from './routes/$'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
@@ -108,6 +110,11 @@ const ModuleSwitchRoute = ModuleSwitchRouteImport.update({
   path: '/module-switch',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MarketplaceManagerRoute = MarketplaceManagerRouteImport.update({
+  id: '/marketplace-manager',
+  path: '/marketplace-manager',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MarketplaceRoute = MarketplaceRouteImport.update({
   id: '/marketplace',
   path: '/marketplace',
@@ -121,6 +128,11 @@ const LoginRoute = LoginRouteImport.update({
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BossPanelRoute = BossPanelRouteImport.update({
+  id: '/boss-panel',
+  path: '/boss-panel',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SplatRoute = SplatRouteImport.update({
@@ -587,9 +599,11 @@ const AuthenticatedAwardsIdEditRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
+  '/boss-panel': typeof BossPanelRoute
   '/contact': typeof ContactRoute
   '/login': typeof LoginRoute
   '/marketplace': typeof MarketplaceRoute
+  '/marketplace-manager': typeof MarketplaceManagerRoute
   '/module-switch': typeof ModuleSwitchRoute
   '/team-chat': typeof TeamChatRoute
   '/achievement-vault': typeof AuthenticatedAchievementVaultRoute
@@ -676,9 +690,11 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
+  '/boss-panel': typeof BossPanelRoute
   '/contact': typeof ContactRoute
   '/login': typeof LoginRoute
   '/marketplace': typeof MarketplaceRoute
+  '/marketplace-manager': typeof MarketplaceManagerRoute
   '/module-switch': typeof ModuleSwitchRoute
   '/team-chat': typeof TeamChatRoute
   '/achievement-vault': typeof AuthenticatedAchievementVaultRoute
@@ -766,9 +782,11 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/$': typeof SplatRoute
+  '/boss-panel': typeof BossPanelRoute
   '/contact': typeof ContactRoute
   '/login': typeof LoginRoute
   '/marketplace': typeof MarketplaceRoute
+  '/marketplace-manager': typeof MarketplaceManagerRoute
   '/module-switch': typeof ModuleSwitchRoute
   '/team-chat': typeof TeamChatRoute
   '/_authenticated/achievement-vault': typeof AuthenticatedAchievementVaultRoute
@@ -857,9 +875,11 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/$'
+    | '/boss-panel'
     | '/contact'
     | '/login'
     | '/marketplace'
+    | '/marketplace-manager'
     | '/module-switch'
     | '/team-chat'
     | '/achievement-vault'
@@ -946,9 +966,11 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/$'
+    | '/boss-panel'
     | '/contact'
     | '/login'
     | '/marketplace'
+    | '/marketplace-manager'
     | '/module-switch'
     | '/team-chat'
     | '/achievement-vault'
@@ -1035,9 +1057,11 @@ export interface FileRouteTypes {
     | '/'
     | '/_authenticated'
     | '/$'
+    | '/boss-panel'
     | '/contact'
     | '/login'
     | '/marketplace'
+    | '/marketplace-manager'
     | '/module-switch'
     | '/team-chat'
     | '/_authenticated/achievement-vault'
@@ -1126,9 +1150,11 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   SplatRoute: typeof SplatRoute
+  BossPanelRoute: typeof BossPanelRoute
   ContactRoute: typeof ContactRoute
   LoginRoute: typeof LoginRoute
   MarketplaceRoute: typeof MarketplaceRoute
+  MarketplaceManagerRoute: typeof MarketplaceManagerRoute
   ModuleSwitchRoute: typeof ModuleSwitchRoute
   TeamChatRoute: typeof TeamChatRoute
   AdminApplicationsRoute: typeof AdminApplicationsRoute
@@ -1156,6 +1182,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ModuleSwitchRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/marketplace-manager': {
+      id: '/marketplace-manager'
+      path: '/marketplace-manager'
+      fullPath: '/marketplace-manager'
+      preLoaderRoute: typeof MarketplaceManagerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/marketplace': {
       id: '/marketplace'
       path: '/marketplace'
@@ -1175,6 +1208,13 @@ declare module '@tanstack/react-router' {
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/boss-panel': {
+      id: '/boss-panel'
+      path: '/boss-panel'
+      fullPath: '/boss-panel'
+      preLoaderRoute: typeof BossPanelRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$': {
@@ -1950,9 +1990,11 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   SplatRoute: SplatRoute,
+  BossPanelRoute: BossPanelRoute,
   ContactRoute: ContactRoute,
   LoginRoute: LoginRoute,
   MarketplaceRoute: MarketplaceRoute,
+  MarketplaceManagerRoute: MarketplaceManagerRoute,
   ModuleSwitchRoute: ModuleSwitchRoute,
   TeamChatRoute: TeamChatRoute,
   AdminApplicationsRoute: AdminApplicationsRoute,

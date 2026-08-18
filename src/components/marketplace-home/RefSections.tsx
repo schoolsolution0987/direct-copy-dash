@@ -1,4 +1,7 @@
 import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { faqsQuery, videosQuery } from "@/lib/marketplace-content/content";
+import { BRAND_STATS, LIFETIME_PRICE } from "@/lib/marketplace-content/brandStats";
 import {
   Sparkles, GraduationCap, Hospital, Hotel, ShoppingBag, Wrench, Factory,
   Trophy, Award, BookOpen, Handshake, ChevronRight, Star,
@@ -25,17 +28,17 @@ const sectionTitle = (title: string, href?: string, subtitle?: string) => (
 
 // Shop by Industry
 const INDUSTRIES = [
-  { name: "Education", href: "#Education", icon: GraduationCap, color: "from-cyan-500/20 to-blue-500/10", text: "text-cyan-300", count: 24 },
-  { name: "Healthcare", href: "#Healthcare", icon: Hospital, color: "from-rose-500/20 to-pink-500/10", text: "text-rose-300", count: 18 },
-  { name: "Hospitality", href: "#Hospitality%20(Hotel,%20Restaurant,%20Travel)", icon: Hotel, color: "from-amber-500/20 to-orange-500/10", text: "text-amber-300", count: 12 },
-  { name: "E-commerce", href: "#E-commerce%20%26%20Online%20Marketplaces", icon: ShoppingBag, color: "from-fuchsia-500/20 to-purple-500/10", text: "text-fuchsia-300", count: 15 },
-  { name: "Services", href: "#Customer%20Support%20%26%20Helpdesk", icon: Wrench, color: "from-emerald-500/20 to-teal-500/10", text: "text-emerald-300", count: 22 },
-  { name: "Manufacturing", href: "#Manufacturing", icon: Factory, color: "from-violet-500/20 to-indigo-500/10", text: "text-violet-300", count: 14 },
+  { name: "Education", href: "#Education", icon: GraduationCap, color: "from-cyan-500/20 to-blue-500/10", text: "text-cyan-300", count: 40 },
+  { name: "Healthcare", href: "#Healthcare", icon: Hospital, color: "from-rose-500/20 to-pink-500/10", text: "text-rose-300", count: 40 },
+  { name: "Hospitality", href: "#Hospitality%20(Hotel,%20Restaurant,%20Travel)", icon: Hotel, color: "from-amber-500/20 to-orange-500/10", text: "text-amber-300", count: 40 },
+  { name: "E-commerce", href: "#E-commerce%20%26%20Online%20Marketplaces", icon: ShoppingBag, color: "from-fuchsia-500/20 to-purple-500/10", text: "text-fuchsia-300", count: 40 },
+  { name: "Services", href: "#Customer%20Support%20%26%20Helpdesk", icon: Wrench, color: "from-emerald-500/20 to-teal-500/10", text: "text-emerald-300", count: 40 },
+  { name: "Manufacturing", href: "#Manufacturing", icon: Factory, color: "from-violet-500/20 to-indigo-500/10", text: "text-violet-300", count: 40 },
 ];
 
 export const IndustryGrid = () => (
   <section className="pt-2 pb-6">
-    {sectionTitle("Shop by Industry", "#All", "Pre-built suites for every sector")}
+    {sectionTitle("Shop by Industry", "#All", `${BRAND_STATS.softwareCount} solutions across ${BRAND_STATS.categoryCount} categories — all ${LIFETIME_PRICE.label}`)}
     <div className="grid grid-cols-2 gap-4 px-6 sm:grid-cols-3 lg:grid-cols-6">
       {INDUSTRIES.map((i) => (
         <a key={i.name} href={i.href} className={`group relative overflow-hidden rounded-xl border border-white/[0.07] bg-gradient-to-br ${i.color} p-4 transition-all hover:-translate-y-1 hover:border-cyan-400/40 hover:shadow-[0_18px_40px_-18px_rgba(34,211,238,0.5)]`}>
@@ -51,7 +54,7 @@ export const IndustryGrid = () => (
 // AI Zone
 const AI_TOOLS = [
   { name: "AI Product Finder", desc: "Describe your need, get the perfect stack.", icon: SearchIcon, accent: "text-fuchsia-300", ring: "border-fuchsia-400/30" },
-  { name: "AI Recommendation", desc: "Personalised picks from 200+ products.", icon: Sparkles, accent: "text-cyan-300", ring: "border-cyan-400/30" },
+  { name: "AI Recommendation", desc: `Personalised picks from ${BRAND_STATS.softwareCount} products.`, icon: Sparkles, accent: "text-cyan-300", ring: "border-cyan-400/30" },
   { name: "AI Compare", desc: "Side-by-side feature & price intelligence.", icon: Brain, accent: "text-violet-300", ring: "border-violet-400/30" },
   { name: "AI Sales Assistant", desc: "24/7 chat copilot for buyers & vendors.", icon: Bot, accent: "text-emerald-300", ring: "border-emerald-400/30" },
 ];
@@ -166,37 +169,52 @@ export const LiveActivity = () => {
   );
 };
 
-// Vala TV
-const VIDEOS = [
-  { title: "How MediCore 360 powers 42 hospitals", duration: "4:12", views: "12k" },
-  { title: "Inside ShopEngine — multi-vendor at scale", duration: "7:48", views: "8.3k" },
-  { title: "Build a school OS with EduFlow", duration: "5:21", views: "15k" },
-  { title: "FactoryOS predictive maintenance demo", duration: "6:02", views: "4.1k" },
-];
+// Vala TV — videos are managed by the Marketplace Manager (/marketplace-manager)
+export const ValaTV = () => {
+  const { data: videos = [] } = useQuery(videosQuery());
 
-export const ValaTV = () => (
-  <section className="py-10">
-    {sectionTitle("Vala TV", "/demos", "Demos, walkthroughs, customer films")}
-    <div className="grid grid-cols-1 gap-4 px-6 sm:grid-cols-2 lg:grid-cols-4">
-      {VIDEOS.map((v) => (
-        <div key={v.title} className="group relative overflow-hidden rounded-xl border border-white/[0.07] bg-gradient-to-br from-[oklch(0.2_0.06_265)] to-[oklch(0.14_0.05_265)] transition-all hover:border-fuchsia-400/40">
-          <div className="relative aspect-video w-full overflow-hidden bg-gradient-to-br from-fuchsia-500/20 via-cyan-500/10 to-transparent">
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white/90 text-gray-900 shadow-2xl transition-transform group-hover:scale-110">
-                <Play className="h-5 w-5 fill-current" />
-              </div>
-            </div>
-            <span className="absolute bottom-2 right-2 rounded bg-black/70 px-1.5 py-0.5 text-[10px] font-bold text-white">{v.duration}</span>
-          </div>
-          <div className="p-3">
-            <div className="text-sm font-semibold text-white line-clamp-2">{v.title}</div>
-            <div className="mt-1 text-[11px] text-white/60">{v.views} views</div>
-          </div>
+  return (
+    <section id="vala-tv" className="py-10">
+      {sectionTitle("Vala TV", "/marketplace-manager", "Demos, walkthroughs, customer films")}
+      {videos.length === 0 ? (
+        <div className="mx-6 rounded-2xl border border-white/[0.07] bg-white/[0.02] px-6 py-10 text-center text-sm text-white/60">
+          No videos published yet. The Marketplace Manager can add videos from the manager console.
         </div>
-      ))}
-    </div>
-  </section>
-);
+      ) : (
+        <div className="grid grid-cols-1 gap-4 px-6 sm:grid-cols-2 lg:grid-cols-4">
+          {videos.map((v) => (
+            <a
+              key={v.id}
+              href={v.video_url}
+              target="_blank"
+              rel="noreferrer"
+              className="group relative overflow-hidden rounded-xl border border-white/[0.07] bg-gradient-to-br from-[oklch(0.2_0.06_265)] to-[oklch(0.14_0.05_265)] transition-all hover:border-fuchsia-400/40"
+            >
+              <div className="relative aspect-video w-full overflow-hidden bg-gradient-to-br from-fuchsia-500/20 via-cyan-500/10 to-transparent">
+                {v.thumbnail_url && (
+                  <img src={v.thumbnail_url} alt={v.title} loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
+                )}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white/90 text-gray-900 shadow-2xl transition-transform group-hover:scale-110">
+                    <Play className="h-5 w-5 fill-current" />
+                  </div>
+                </div>
+                {v.duration && (
+                  <span className="absolute bottom-2 right-2 rounded bg-black/70 px-1.5 py-0.5 text-[10px] font-bold text-white">{v.duration}</span>
+                )}
+              </div>
+              <div className="p-3">
+                <div className="text-sm font-semibold text-white line-clamp-2">{v.title}</div>
+                <div className="mt-1 text-[11px] text-white/60">{v.views_label}</div>
+              </div>
+            </a>
+          ))}
+        </div>
+      )}
+    </section>
+  );
+};
+
 
 // Academy
 export const Academy = () => {
@@ -228,7 +246,7 @@ export const Academy = () => {
 // Partner Ecosystem
 const PARTNERS = [
   { name: "Reseller", desc: "Up to 40% recurring commission", icon: Handshake, color: "text-orange-300", ring: "border-orange-400/30" },
-  { name: "Vendor", desc: "List products, reach 50k+ buyers", icon: ShoppingBag, color: "text-emerald-300", ring: "border-emerald-400/30" },
+  { name: "Vendor", desc: `List products, reach ${BRAND_STATS.businesses} buyers`, icon: ShoppingBag, color: "text-emerald-300", ring: "border-emerald-400/30" },
   { name: "Franchise", desc: "Exclusive territory rights", icon: Building2, color: "text-amber-300", ring: "border-amber-400/30" },
   { name: "Author", desc: "Publish & monetise products", icon: BookOpen, color: "text-cyan-300", ring: "border-cyan-400/30" },
   { name: "Affiliate", desc: "Link, share, earn per sale", icon: Globe2, color: "text-fuchsia-300", ring: "border-fuchsia-400/30" },
@@ -250,38 +268,39 @@ export const PartnerEcosystem = () => (
   </section>
 );
 
-// FAQ
-const FAQS = [
-  { q: "How does 2-hour delivery work?", a: "Once payment is confirmed (or demo approved), provisioning triggers and credentials are emailed within 120 minutes." },
-  { q: "Can I try before paying?", a: "Yes — every product offers an instant live demo and a 14-day trial with no credit card." },
-  { q: "What does the lifetime license include?", a: "One-time payment, unlimited use on a single domain, all major version updates for life, and lifetime support." },
-  { q: "Do you offer white-label and reseller rights?", a: "Yes — pick the Reseller or White-Label plan and launch under your own brand within 24 hours." },
-  { q: "Is the platform enterprise-ready?", a: "ISO-aligned controls, SOC-ready logging, regional data residency and dedicated success engineers for teams of 100+." },
-];
-
+// FAQ — questions are managed by the Marketplace Manager (/marketplace-manager)
 export const FaqSection = () => {
   const [open, setOpen] = useState(0);
+  const { data: faqs = [] } = useQuery(faqsQuery());
+
   return (
-    <section className="py-10">
-      {sectionTitle("Frequently Asked Questions")}
-      <div className="mx-6 max-w-4xl space-y-2">
-        {FAQS.map((f, i) => {
-          const isOpen = open === i;
-          return (
-            <button key={f.q} onClick={() => setOpen(isOpen ? -1 : i)} className={`w-full overflow-hidden rounded-xl border text-left transition-all ${isOpen ? "border-cyan-400/40 bg-cyan-500/[0.04]" : "border-white/[0.07] bg-white/[0.02] hover:border-white/15"}`}>
-              <div className="flex items-center gap-3 px-5 py-4">
-                <HelpCircle className={`h-4 w-4 flex-shrink-0 ${isOpen ? "text-cyan-300" : "text-white/60"}`} />
-                <span className="flex-1 text-sm font-semibold text-white">{f.q}</span>
-                <ChevronRight className={`h-4 w-4 text-white/60 transition-transform ${isOpen ? "rotate-90" : ""}`} />
-              </div>
-              {isOpen && <p className="px-5 pb-4 pl-12 text-xs leading-relaxed text-white/70">{f.a}</p>}
-            </button>
-          );
-        })}
-      </div>
+    <section id="faq" className="py-10">
+      {sectionTitle("Frequently Asked Questions", "/marketplace-manager", `Everything about ${LIFETIME_PRICE.label} licensing, delivery & support`)}
+      {faqs.length === 0 ? (
+        <div className="mx-6 max-w-4xl rounded-2xl border border-white/[0.07] bg-white/[0.02] px-6 py-10 text-center text-sm text-white/60">
+          No questions published yet. The Marketplace Manager can add FAQs from the manager console.
+        </div>
+      ) : (
+        <div className="mx-6 max-w-4xl space-y-2">
+          {faqs.map((f, i) => {
+            const isOpen = open === i;
+            return (
+              <button key={f.id} onClick={() => setOpen(isOpen ? -1 : i)} className={`w-full overflow-hidden rounded-xl border text-left transition-all ${isOpen ? "border-cyan-400/40 bg-cyan-500/[0.04]" : "border-white/[0.07] bg-white/[0.02] hover:border-white/15"}`}>
+                <div className="flex items-center gap-3 px-5 py-4">
+                  <HelpCircle className={`h-4 w-4 flex-shrink-0 ${isOpen ? "text-cyan-300" : "text-white/60"}`} />
+                  <span className="flex-1 text-sm font-semibold text-white">{f.question}</span>
+                  <ChevronRight className={`h-4 w-4 text-white/60 transition-transform ${isOpen ? "rotate-90" : ""}`} />
+                </div>
+                {isOpen && <p className="px-5 pb-4 pl-12 text-xs leading-relaxed text-white/70">{f.answer}</p>}
+              </button>
+            );
+          })}
+        </div>
+      )}
     </section>
   );
 };
+
 
 // Enterprise CTA
 export const EnterpriseCTA = () => (
@@ -311,10 +330,10 @@ export const EnterpriseCTA = () => (
         </div>
         <div className="grid grid-cols-2 gap-3">
           {[
-            { k: "50K+", v: "Businesses" },
-            { k: "99.99%", v: "Uptime SLA" },
-            { k: "120 min", v: "Avg delivery" },
-            { k: "24/7", v: "Support" },
+            { k: BRAND_STATS.businesses, v: "Businesses" },
+            { k: BRAND_STATS.uptime, v: "Uptime SLA" },
+            { k: BRAND_STATS.delivery, v: "Avg delivery" },
+            { k: BRAND_STATS.support, v: "Support" },
           ].map((s) => (
             <div key={s.v} className="rounded-2xl border border-white/10 bg-white/5 p-4 text-center backdrop-blur-md">
               <div className="text-2xl font-bold text-white">{s.k}</div>

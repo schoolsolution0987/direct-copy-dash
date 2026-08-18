@@ -1,4 +1,4 @@
-import { memo, useState } from "react";
+import { memo, useMemo, useState } from "react";
 
 import { motion } from "framer-motion";
 import { toast } from "sonner";
@@ -29,6 +29,9 @@ import {
   ValaTV, Academy as ValaAcademy, PartnerEcosystem, FaqSection, EnterpriseCTA,
 } from "@/components/marketplace-home/RefSections";
 import { extraDemos, allMasterCategories55 } from "@/data/extraDemos";
+import { buildMarketplaceRows } from "@/data/marketplaceRows";
+import RowSlider from "@/components/marketplace-home/RowSlider";
+import { BRAND_STATS, LIFETIME_PRICE } from "@/lib/marketplace-content/brandStats";
 
 interface Demo {
   id: string;
@@ -3342,20 +3345,30 @@ const allDemos: Demo[] = [
 ];
 
 // Master Categories for filtering (55 rows — matches actual data values)
-const masterCategories = ["All", ...allMasterCategories55];
 
 const Index = () => {
   const [activeCategory, setActiveCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [favorites, setFavorites] = useState<string[]>([]);
 
-  const filteredDemos = allDemos.filter(demo => {
-    const matchesCategory = activeCategory === "All" || demo.masterCategory === activeCategory;
-    const matchesSearch = demo.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          demo.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          demo.masterCategory.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
-  });
+  // Netflix-style rows: every master category expanded to >= MIN_PER_ROW related products
+  const allRows = useMemo(() => buildMarketplaceRows(allDemos, allMasterCategories55), []);
+
+  const q = searchQuery.trim().toLowerCase();
+  const matches = (demo: Demo) =>
+    !q ||
+    demo.name.toLowerCase().includes(q) ||
+    demo.description.toLowerCase().includes(q) ||
+    demo.category.toLowerCase().includes(q) ||
+    demo.masterCategory.toLowerCase().includes(q);
+
+  const rows = allRows
+    .filter((r) => activeCategory === "All" || r.master === activeCategory)
+    .map((r) => ({ master: r.master, items: r.items.filter(matches) }))
+    .filter((r) => r.items.length > 0);
+
+  const filteredDemos = rows.flatMap((r) => r.items);
+
 
   const toggleFavorite = (id: string) => {
     setFavorites(prev => prev.includes(id) ? prev.filter(f => f !== id) : [...prev, id]);
@@ -3428,52 +3441,40 @@ const Index = () => {
         </div>
       </div>
 
-      {/* Demo Cards Grid */}
+      {/* Netflix-style category rows — every row is a horizontal slider */}
       <section className="py-8 px-4">
         <div className="max-w-7xl mx-auto">
-          {/* Group by Master Category when "All" is selected */}
-          {activeCategory === "All" ? (
-            masterCategories.slice(1).map(masterCat => {
-              const categoryDemos = filteredDemos.filter(d => d.masterCategory === masterCat);
-              if (categoryDemos.length === 0) return null;
-              
-              return (
-                <div key={masterCat} id={masterCat} className="mb-12 scroll-mt-32">
-                  <div className="flex items-center gap-3 mb-6">
-                    <h3 className="text-2xl font-bold text-white">{masterCat}</h3>
-                    <Badge className="bg-cyan-500/20 text-cyan-400 border-cyan-500/30">
-                      {categoryDemos.length} Products
-                    </Badge>
+          {rows.map((row) => (
+            <div key={row.master} id={row.master} className="mb-12 scroll-mt-32">
+              <div className="flex items-center gap-3 mb-4">
+                <h3 className="text-2xl font-bold text-white">{row.master}</h3>
+                <Badge className="bg-cyan-500/20 text-cyan-400 border-cyan-500/30">
+                  {row.items.length} Products
+                </Badge>
+                <Badge className="bg-emerald-500/20 text-emerald-300 border-emerald-500/30">
+                  {LIFETIME_PRICE.label}
+                </Badge>
+              </div>
+              <RowSlider>
+                {row.items.map((demo, index) => (
+                  <div key={demo.id} className="w-[300px] shrink-0 snap-start">
+                    <DemoCard
+                      demo={demo}
+                      index={index}
+                      isFavorite={favorites.includes(demo.id)}
+                      onToggleFavorite={() => toggleFavorite(demo.id)}
+                    />
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                    {categoryDemos.map((demo, index) => (
-                      <DemoCard 
-                        key={demo.id} 
-                        demo={demo} 
-                        index={index}
-                        isFavorite={favorites.includes(demo.id)}
-                        onToggleFavorite={() => toggleFavorite(demo.id)}
-                      />
-                    ))}
-                  </div>
-                </div>
-              );
-            })
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {filteredDemos.map((demo, index) => (
-                <DemoCard 
-                  key={demo.id} 
-                  demo={demo} 
-                  index={index}
-                  isFavorite={favorites.includes(demo.id)}
-                  onToggleFavorite={() => toggleFavorite(demo.id)}
-                />
-              ))}
+                ))}
+              </RowSlider>
             </div>
+          ))}
+          {rows.length === 0 && (
+            <p className="py-16 text-center text-sm text-white/60">No software matches your search.</p>
           )}
         </div>
       </section>
+
 
       {/* Reference marketplace sections (added below product grid, keeping design intact) */}
       <div className="max-w-7xl mx-auto">
@@ -3492,7 +3493,7 @@ const Index = () => {
       <footer className="bg-[#0a1628] border-t border-cyan-500/20 py-8 px-4">
         <div className="max-w-7xl mx-auto text-center">
           <p className="text-gray-400">© 2024 Software Vala - The Name of Trust. All rights reserved.</p>
-          <p className="text-cyan-400 mt-2">55 Master Categories • {allDemos.length} Software Solutions • 20 Live Demos Ready</p>
+          <p className="text-cyan-400 mt-2">{BRAND_STATS.categoryCountLabel} • {BRAND_STATS.softwareCountLabel} • {LIFETIME_PRICE.label}</p>
         </div>
       </footer>
     </div>
@@ -3624,16 +3625,17 @@ const DemoCard = memo(({ demo, index, isFavorite, onToggleFavorite }: {
               </div>
             </div>
 
-            {/* Price with animation */}
-            <div className="flex items-baseline gap-2 mb-4">
-              <span className="text-gray-500 line-through text-[13px]">{demo.price}</span>
+            {/* One flat lifetime price for every product in the system */}
+            <div className="flex items-baseline gap-2 mb-1">
               <span className="sv-price text-emerald-300 font-black text-[22px] tracking-[-0.02em]">
-                {demo.discountPrice}
+                {LIFETIME_PRICE.display}
               </span>
-              <Badge className="bg-red-500/20 text-red-300 border-red-500/30 text-[10px] font-bold">
-                40% OFF
+              <Badge className="bg-emerald-500/20 text-emerald-300 border-emerald-500/30 text-[10px] font-bold">
+                LIFETIME
               </Badge>
             </div>
+            <p className="text-gray-500 text-[10px] mb-4">{LIFETIME_PRICE.note}</p>
+
 
             {/* Enhanced Actions */}
             <div className="flex gap-2 mt-auto">
@@ -3646,7 +3648,7 @@ const DemoCard = memo(({ demo, index, isFavorite, onToggleFavorite }: {
                   </a>
                   <Button 
                     className="sv-btn sv-btn-emerald flex-1"
-                    onClick={() => toast.success("🎉 Redirecting to purchase...", { description: `${demo.name} - ${demo.discountPrice}` })}
+                    onClick={() => toast.success("🎉 Redirecting to purchase...", { description: `${demo.name} - ${LIFETIME_PRICE.label}` })}
                   >
                     <ShoppingCart className="h-4 w-4 mr-2" /> Buy Now
                   </Button>
