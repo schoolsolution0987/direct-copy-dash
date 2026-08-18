@@ -1,4 +1,7 @@
 import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { faqsQuery, videosQuery } from "@/lib/marketplace-content/content";
+import { BRAND_STATS, LIFETIME_PRICE } from "@/lib/marketplace-content/brandStats";
 import {
   Sparkles, GraduationCap, Hospital, Hotel, ShoppingBag, Wrench, Factory,
   Trophy, Award, BookOpen, Handshake, ChevronRight, Star,
@@ -35,7 +38,7 @@ const INDUSTRIES = [
 
 export const IndustryGrid = () => (
   <section className="pt-2 pb-6">
-    {sectionTitle("Shop by Industry", "#All", "Pre-built suites for every sector")}
+    {sectionTitle("Shop by Industry", "#All", `${BRAND_STATS.softwareCount} solutions across ${BRAND_STATS.categoryCount} categories — all ${LIFETIME_PRICE.label}`)}
     <div className="grid grid-cols-2 gap-4 px-6 sm:grid-cols-3 lg:grid-cols-6">
       {INDUSTRIES.map((i) => (
         <a key={i.name} href={i.href} className={`group relative overflow-hidden rounded-xl border border-white/[0.07] bg-gradient-to-br ${i.color} p-4 transition-all hover:-translate-y-1 hover:border-cyan-400/40 hover:shadow-[0_18px_40px_-18px_rgba(34,211,238,0.5)]`}>
@@ -51,7 +54,7 @@ export const IndustryGrid = () => (
 // AI Zone
 const AI_TOOLS = [
   { name: "AI Product Finder", desc: "Describe your need, get the perfect stack.", icon: SearchIcon, accent: "text-fuchsia-300", ring: "border-fuchsia-400/30" },
-  { name: "AI Recommendation", desc: "Personalised picks from 200+ products.", icon: Sparkles, accent: "text-cyan-300", ring: "border-cyan-400/30" },
+  { name: "AI Recommendation", desc: `Personalised picks from ${BRAND_STATS.softwareCount} products.`, icon: Sparkles, accent: "text-cyan-300", ring: "border-cyan-400/30" },
   { name: "AI Compare", desc: "Side-by-side feature & price intelligence.", icon: Brain, accent: "text-violet-300", ring: "border-violet-400/30" },
   { name: "AI Sales Assistant", desc: "24/7 chat copilot for buyers & vendors.", icon: Bot, accent: "text-emerald-300", ring: "border-emerald-400/30" },
 ];
@@ -228,7 +231,7 @@ export const Academy = () => {
 // Partner Ecosystem
 const PARTNERS = [
   { name: "Reseller", desc: "Up to 40% recurring commission", icon: Handshake, color: "text-orange-300", ring: "border-orange-400/30" },
-  { name: "Vendor", desc: "List products, reach 50k+ buyers", icon: ShoppingBag, color: "text-emerald-300", ring: "border-emerald-400/30" },
+  { name: "Vendor", desc: `List products, reach ${BRAND_STATS.businesses} buyers`, icon: ShoppingBag, color: "text-emerald-300", ring: "border-emerald-400/30" },
   { name: "Franchise", desc: "Exclusive territory rights", icon: Building2, color: "text-amber-300", ring: "border-amber-400/30" },
   { name: "Author", desc: "Publish & monetise products", icon: BookOpen, color: "text-cyan-300", ring: "border-cyan-400/30" },
   { name: "Affiliate", desc: "Link, share, earn per sale", icon: Globe2, color: "text-fuchsia-300", ring: "border-fuchsia-400/30" },
@@ -311,10 +314,10 @@ export const EnterpriseCTA = () => (
         </div>
         <div className="grid grid-cols-2 gap-3">
           {[
-            { k: "50K+", v: "Businesses" },
-            { k: "99.99%", v: "Uptime SLA" },
-            { k: "120 min", v: "Avg delivery" },
-            { k: "24/7", v: "Support" },
+            { k: BRAND_STATS.businesses, v: "Businesses" },
+            { k: BRAND_STATS.uptime, v: "Uptime SLA" },
+            { k: BRAND_STATS.delivery, v: "Avg delivery" },
+            { k: BRAND_STATS.support, v: "Support" },
           ].map((s) => (
             <div key={s.v} className="rounded-2xl border border-white/10 bg-white/5 p-4 text-center backdrop-blur-md">
               <div className="text-2xl font-bold text-white">{s.k}</div>
