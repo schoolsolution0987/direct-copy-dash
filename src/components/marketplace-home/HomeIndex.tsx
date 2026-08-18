@@ -3352,13 +3352,24 @@ const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [favorites, setFavorites] = useState<string[]>([]);
 
-  const filteredDemos = allDemos.filter(demo => {
-    const matchesCategory = activeCategory === "All" || demo.masterCategory === activeCategory;
-    const matchesSearch = demo.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          demo.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          demo.masterCategory.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
-  });
+  // Netflix-style rows: every master category expanded to >= MIN_PER_ROW related products
+  const allRows = useMemo(() => buildMarketplaceRows(allDemos, allMasterCategories55), []);
+
+  const q = searchQuery.trim().toLowerCase();
+  const matches = (demo: Demo) =>
+    !q ||
+    demo.name.toLowerCase().includes(q) ||
+    demo.description.toLowerCase().includes(q) ||
+    demo.category.toLowerCase().includes(q) ||
+    demo.masterCategory.toLowerCase().includes(q);
+
+  const rows = allRows
+    .filter((r) => activeCategory === "All" || r.master === activeCategory)
+    .map((r) => ({ master: r.master, items: r.items.filter(matches) }))
+    .filter((r) => r.items.length > 0);
+
+  const filteredDemos = rows.flatMap((r) => r.items);
+
 
   const toggleFavorite = (id: string) => {
     setFavorites(prev => prev.includes(id) ? prev.filter(f => f !== id) : [...prev, id]);
