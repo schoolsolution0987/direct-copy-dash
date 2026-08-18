@@ -3624,16 +3624,17 @@ const DemoCard = memo(({ demo, index, isFavorite, onToggleFavorite }: {
               </div>
             </div>
 
-            {/* Price with animation */}
-            <div className="flex items-baseline gap-2 mb-4">
-              <span className="text-gray-500 line-through text-[13px]">{demo.price}</span>
+            {/* One flat lifetime price for every product in the system */}
+            <div className="flex items-baseline gap-2 mb-1">
               <span className="sv-price text-emerald-300 font-black text-[22px] tracking-[-0.02em]">
-                {demo.discountPrice}
+                {LIFETIME_PRICE.display}
               </span>
-              <Badge className="bg-red-500/20 text-red-300 border-red-500/30 text-[10px] font-bold">
-                40% OFF
+              <Badge className="bg-emerald-500/20 text-emerald-300 border-emerald-500/30 text-[10px] font-bold">
+                LIFETIME
               </Badge>
             </div>
+            <p className="text-gray-500 text-[10px] mb-4">{LIFETIME_PRICE.note}</p>
+
 
             {/* Enhanced Actions */}
             <div className="flex gap-2 mt-auto">
