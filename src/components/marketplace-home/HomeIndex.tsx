@@ -29,6 +29,9 @@ import {
   ValaTV, Academy as ValaAcademy, PartnerEcosystem, FaqSection, EnterpriseCTA,
 } from "@/components/marketplace-home/RefSections";
 import { extraDemos, allMasterCategories55 } from "@/data/extraDemos";
+import { buildMarketplaceRows, MIN_PER_ROW } from "@/data/marketplaceRows";
+import RowSlider from "@/components/marketplace-home/RowSlider";
+import { BRAND_STATS, LIFETIME_PRICE } from "@/lib/marketplace-content/brandStats";
 
 interface Demo {
   id: string;
@@ -3492,7 +3495,7 @@ const Index = () => {
       <footer className="bg-[#0a1628] border-t border-cyan-500/20 py-8 px-4">
         <div className="max-w-7xl mx-auto text-center">
           <p className="text-gray-400">© 2024 Software Vala - The Name of Trust. All rights reserved.</p>
-          <p className="text-cyan-400 mt-2">55 Master Categories • {allDemos.length} Software Solutions • 20 Live Demos Ready</p>
+          <p className="text-cyan-400 mt-2">{BRAND_STATS.categoryCountLabel} • {BRAND_STATS.softwareCountLabel} • {LIFETIME_PRICE.label}</p>
         </div>
       </footer>
     </div>
@@ -3647,7 +3650,7 @@ const DemoCard = memo(({ demo, index, isFavorite, onToggleFavorite }: {
                   </a>
                   <Button 
                     className="sv-btn sv-btn-emerald flex-1"
-                    onClick={() => toast.success("🎉 Redirecting to purchase...", { description: `${demo.name} - ${demo.discountPrice}` })}
+                    onClick={() => toast.success("🎉 Redirecting to purchase...", { description: `${demo.name} - ${LIFETIME_PRICE.label}` })}
                   >
                     <ShoppingCart className="h-4 w-4 mr-2" /> Buy Now
                   </Button>
