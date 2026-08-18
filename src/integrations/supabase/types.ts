@@ -98,6 +98,81 @@ export type Database = {
         }
         Relationships: []
       }
+      marketplace_faqs: {
+        Row: {
+          answer: string
+          category: string
+          created_at: string
+          id: string
+          position: number
+          question: string
+          updated_at: string
+          visible: boolean
+        }
+        Insert: {
+          answer: string
+          category?: string
+          created_at?: string
+          id?: string
+          position?: number
+          question: string
+          updated_at?: string
+          visible?: boolean
+        }
+        Update: {
+          answer?: string
+          category?: string
+          created_at?: string
+          id?: string
+          position?: number
+          question?: string
+          updated_at?: string
+          visible?: boolean
+        }
+        Relationships: []
+      }
+      marketplace_videos: {
+        Row: {
+          created_at: string
+          description: string
+          duration: string
+          id: string
+          position: number
+          thumbnail_url: string | null
+          title: string
+          updated_at: string
+          video_url: string
+          views_label: string
+          visible: boolean
+        }
+        Insert: {
+          created_at?: string
+          description?: string
+          duration?: string
+          id?: string
+          position?: number
+          thumbnail_url?: string | null
+          title: string
+          updated_at?: string
+          video_url: string
+          views_label?: string
+          visible?: boolean
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          duration?: string
+          id?: string
+          position?: number
+          thumbnail_url?: string | null
+          title?: string
+          updated_at?: string
+          video_url?: string
+          views_label?: string
+          visible?: boolean
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
