@@ -29,7 +29,7 @@ import {
   ValaTV, Academy as ValaAcademy, PartnerEcosystem, FaqSection, EnterpriseCTA,
 } from "@/components/marketplace-home/RefSections";
 import { extraDemos, allMasterCategories55 } from "@/data/extraDemos";
-import { buildMarketplaceRows, MIN_PER_ROW } from "@/data/marketplaceRows";
+import { buildMarketplaceRows } from "@/data/marketplaceRows";
 import RowSlider from "@/components/marketplace-home/RowSlider";
 import { BRAND_STATS, LIFETIME_PRICE } from "@/lib/marketplace-content/brandStats";
 
@@ -3345,7 +3345,6 @@ const allDemos: Demo[] = [
 ];
 
 // Master Categories for filtering (55 rows — matches actual data values)
-const masterCategories = ["All", ...allMasterCategories55];
 
 const Index = () => {
   const [activeCategory, setActiveCategory] = useState("All");

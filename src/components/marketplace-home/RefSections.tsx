@@ -28,12 +28,12 @@ const sectionTitle = (title: string, href?: string, subtitle?: string) => (
 
 // Shop by Industry
 const INDUSTRIES = [
-  { name: "Education", href: "#Education", icon: GraduationCap, color: "from-cyan-500/20 to-blue-500/10", text: "text-cyan-300", count: 24 },
-  { name: "Healthcare", href: "#Healthcare", icon: Hospital, color: "from-rose-500/20 to-pink-500/10", text: "text-rose-300", count: 18 },
-  { name: "Hospitality", href: "#Hospitality%20(Hotel,%20Restaurant,%20Travel)", icon: Hotel, color: "from-amber-500/20 to-orange-500/10", text: "text-amber-300", count: 12 },
-  { name: "E-commerce", href: "#E-commerce%20%26%20Online%20Marketplaces", icon: ShoppingBag, color: "from-fuchsia-500/20 to-purple-500/10", text: "text-fuchsia-300", count: 15 },
-  { name: "Services", href: "#Customer%20Support%20%26%20Helpdesk", icon: Wrench, color: "from-emerald-500/20 to-teal-500/10", text: "text-emerald-300", count: 22 },
-  { name: "Manufacturing", href: "#Manufacturing", icon: Factory, color: "from-violet-500/20 to-indigo-500/10", text: "text-violet-300", count: 14 },
+  { name: "Education", href: "#Education", icon: GraduationCap, color: "from-cyan-500/20 to-blue-500/10", text: "text-cyan-300", count: 40 },
+  { name: "Healthcare", href: "#Healthcare", icon: Hospital, color: "from-rose-500/20 to-pink-500/10", text: "text-rose-300", count: 40 },
+  { name: "Hospitality", href: "#Hospitality%20(Hotel,%20Restaurant,%20Travel)", icon: Hotel, color: "from-amber-500/20 to-orange-500/10", text: "text-amber-300", count: 40 },
+  { name: "E-commerce", href: "#E-commerce%20%26%20Online%20Marketplaces", icon: ShoppingBag, color: "from-fuchsia-500/20 to-purple-500/10", text: "text-fuchsia-300", count: 40 },
+  { name: "Services", href: "#Customer%20Support%20%26%20Helpdesk", icon: Wrench, color: "from-emerald-500/20 to-teal-500/10", text: "text-emerald-300", count: 40 },
+  { name: "Manufacturing", href: "#Manufacturing", icon: Factory, color: "from-violet-500/20 to-indigo-500/10", text: "text-violet-300", count: 40 },
 ];
 
 export const IndustryGrid = () => (
