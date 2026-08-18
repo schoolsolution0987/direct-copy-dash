@@ -268,38 +268,39 @@ export const PartnerEcosystem = () => (
   </section>
 );
 
-// FAQ
-const FAQS = [
-  { q: "How does 2-hour delivery work?", a: "Once payment is confirmed (or demo approved), provisioning triggers and credentials are emailed within 120 minutes." },
-  { q: "Can I try before paying?", a: "Yes — every product offers an instant live demo and a 14-day trial with no credit card." },
-  { q: "What does the lifetime license include?", a: "One-time payment, unlimited use on a single domain, all major version updates for life, and lifetime support." },
-  { q: "Do you offer white-label and reseller rights?", a: "Yes — pick the Reseller or White-Label plan and launch under your own brand within 24 hours." },
-  { q: "Is the platform enterprise-ready?", a: "ISO-aligned controls, SOC-ready logging, regional data residency and dedicated success engineers for teams of 100+." },
-];
-
+// FAQ — questions are managed by the Marketplace Manager (/marketplace-manager)
 export const FaqSection = () => {
   const [open, setOpen] = useState(0);
+  const { data: faqs = [] } = useQuery(faqsQuery());
+
   return (
-    <section className="py-10">
-      {sectionTitle("Frequently Asked Questions")}
-      <div className="mx-6 max-w-4xl space-y-2">
-        {FAQS.map((f, i) => {
-          const isOpen = open === i;
-          return (
-            <button key={f.q} onClick={() => setOpen(isOpen ? -1 : i)} className={`w-full overflow-hidden rounded-xl border text-left transition-all ${isOpen ? "border-cyan-400/40 bg-cyan-500/[0.04]" : "border-white/[0.07] bg-white/[0.02] hover:border-white/15"}`}>
-              <div className="flex items-center gap-3 px-5 py-4">
-                <HelpCircle className={`h-4 w-4 flex-shrink-0 ${isOpen ? "text-cyan-300" : "text-white/60"}`} />
-                <span className="flex-1 text-sm font-semibold text-white">{f.q}</span>
-                <ChevronRight className={`h-4 w-4 text-white/60 transition-transform ${isOpen ? "rotate-90" : ""}`} />
-              </div>
-              {isOpen && <p className="px-5 pb-4 pl-12 text-xs leading-relaxed text-white/70">{f.a}</p>}
-            </button>
-          );
-        })}
-      </div>
+    <section id="faq" className="py-10">
+      {sectionTitle("Frequently Asked Questions", "/marketplace-manager", `Everything about ${LIFETIME_PRICE.label} licensing, delivery & support`)}
+      {faqs.length === 0 ? (
+        <div className="mx-6 max-w-4xl rounded-2xl border border-white/[0.07] bg-white/[0.02] px-6 py-10 text-center text-sm text-white/60">
+          No questions published yet. The Marketplace Manager can add FAQs from the manager console.
+        </div>
+      ) : (
+        <div className="mx-6 max-w-4xl space-y-2">
+          {faqs.map((f, i) => {
+            const isOpen = open === i;
+            return (
+              <button key={f.id} onClick={() => setOpen(isOpen ? -1 : i)} className={`w-full overflow-hidden rounded-xl border text-left transition-all ${isOpen ? "border-cyan-400/40 bg-cyan-500/[0.04]" : "border-white/[0.07] bg-white/[0.02] hover:border-white/15"}`}>
+                <div className="flex items-center gap-3 px-5 py-4">
+                  <HelpCircle className={`h-4 w-4 flex-shrink-0 ${isOpen ? "text-cyan-300" : "text-white/60"}`} />
+                  <span className="flex-1 text-sm font-semibold text-white">{f.question}</span>
+                  <ChevronRight className={`h-4 w-4 text-white/60 transition-transform ${isOpen ? "rotate-90" : ""}`} />
+                </div>
+                {isOpen && <p className="px-5 pb-4 pl-12 text-xs leading-relaxed text-white/70">{f.answer}</p>}
+              </button>
+            );
+          })}
+        </div>
+      )}
     </section>
   );
 };
+
 
 // Enterprise CTA
 export const EnterpriseCTA = () => (
