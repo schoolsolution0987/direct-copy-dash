@@ -169,37 +169,52 @@ export const LiveActivity = () => {
   );
 };
 
-// Vala TV
-const VIDEOS = [
-  { title: "How MediCore 360 powers 42 hospitals", duration: "4:12", views: "12k" },
-  { title: "Inside ShopEngine — multi-vendor at scale", duration: "7:48", views: "8.3k" },
-  { title: "Build a school OS with EduFlow", duration: "5:21", views: "15k" },
-  { title: "FactoryOS predictive maintenance demo", duration: "6:02", views: "4.1k" },
-];
+// Vala TV — videos are managed by the Marketplace Manager (/marketplace-manager)
+export const ValaTV = () => {
+  const { data: videos = [] } = useQuery(videosQuery());
 
-export const ValaTV = () => (
-  <section className="py-10">
-    {sectionTitle("Vala TV", "/demos", "Demos, walkthroughs, customer films")}
-    <div className="grid grid-cols-1 gap-4 px-6 sm:grid-cols-2 lg:grid-cols-4">
-      {VIDEOS.map((v) => (
-        <div key={v.title} className="group relative overflow-hidden rounded-xl border border-white/[0.07] bg-gradient-to-br from-[oklch(0.2_0.06_265)] to-[oklch(0.14_0.05_265)] transition-all hover:border-fuchsia-400/40">
-          <div className="relative aspect-video w-full overflow-hidden bg-gradient-to-br from-fuchsia-500/20 via-cyan-500/10 to-transparent">
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white/90 text-gray-900 shadow-2xl transition-transform group-hover:scale-110">
-                <Play className="h-5 w-5 fill-current" />
-              </div>
-            </div>
-            <span className="absolute bottom-2 right-2 rounded bg-black/70 px-1.5 py-0.5 text-[10px] font-bold text-white">{v.duration}</span>
-          </div>
-          <div className="p-3">
-            <div className="text-sm font-semibold text-white line-clamp-2">{v.title}</div>
-            <div className="mt-1 text-[11px] text-white/60">{v.views} views</div>
-          </div>
+  return (
+    <section id="vala-tv" className="py-10">
+      {sectionTitle("Vala TV", "/marketplace-manager", "Demos, walkthroughs, customer films")}
+      {videos.length === 0 ? (
+        <div className="mx-6 rounded-2xl border border-white/[0.07] bg-white/[0.02] px-6 py-10 text-center text-sm text-white/60">
+          No videos published yet. The Marketplace Manager can add videos from the manager console.
         </div>
-      ))}
-    </div>
-  </section>
-);
+      ) : (
+        <div className="grid grid-cols-1 gap-4 px-6 sm:grid-cols-2 lg:grid-cols-4">
+          {videos.map((v) => (
+            <a
+              key={v.id}
+              href={v.video_url}
+              target="_blank"
+              rel="noreferrer"
+              className="group relative overflow-hidden rounded-xl border border-white/[0.07] bg-gradient-to-br from-[oklch(0.2_0.06_265)] to-[oklch(0.14_0.05_265)] transition-all hover:border-fuchsia-400/40"
+            >
+              <div className="relative aspect-video w-full overflow-hidden bg-gradient-to-br from-fuchsia-500/20 via-cyan-500/10 to-transparent">
+                {v.thumbnail_url && (
+                  <img src={v.thumbnail_url} alt={v.title} loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
+                )}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white/90 text-gray-900 shadow-2xl transition-transform group-hover:scale-110">
+                    <Play className="h-5 w-5 fill-current" />
+                  </div>
+                </div>
+                {v.duration && (
+                  <span className="absolute bottom-2 right-2 rounded bg-black/70 px-1.5 py-0.5 text-[10px] font-bold text-white">{v.duration}</span>
+                )}
+              </div>
+              <div className="p-3">
+                <div className="text-sm font-semibold text-white line-clamp-2">{v.title}</div>
+                <div className="mt-1 text-[11px] text-white/60">{v.views_label}</div>
+              </div>
+            </a>
+          ))}
+        </div>
+      )}
+    </section>
+  );
+};
+
 
 // Academy
 export const Academy = () => {
