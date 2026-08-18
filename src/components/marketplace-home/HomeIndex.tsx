@@ -3442,52 +3442,40 @@ const Index = () => {
         </div>
       </div>
 
-      {/* Demo Cards Grid */}
+      {/* Netflix-style category rows — every row is a horizontal slider */}
       <section className="py-8 px-4">
         <div className="max-w-7xl mx-auto">
-          {/* Group by Master Category when "All" is selected */}
-          {activeCategory === "All" ? (
-            masterCategories.slice(1).map(masterCat => {
-              const categoryDemos = filteredDemos.filter(d => d.masterCategory === masterCat);
-              if (categoryDemos.length === 0) return null;
-              
-              return (
-                <div key={masterCat} id={masterCat} className="mb-12 scroll-mt-32">
-                  <div className="flex items-center gap-3 mb-6">
-                    <h3 className="text-2xl font-bold text-white">{masterCat}</h3>
-                    <Badge className="bg-cyan-500/20 text-cyan-400 border-cyan-500/30">
-                      {categoryDemos.length} Products
-                    </Badge>
+          {rows.map((row) => (
+            <div key={row.master} id={row.master} className="mb-12 scroll-mt-32">
+              <div className="flex items-center gap-3 mb-4">
+                <h3 className="text-2xl font-bold text-white">{row.master}</h3>
+                <Badge className="bg-cyan-500/20 text-cyan-400 border-cyan-500/30">
+                  {row.items.length} Products
+                </Badge>
+                <Badge className="bg-emerald-500/20 text-emerald-300 border-emerald-500/30">
+                  {LIFETIME_PRICE.label}
+                </Badge>
+              </div>
+              <RowSlider>
+                {row.items.map((demo, index) => (
+                  <div key={demo.id} className="w-[300px] shrink-0 snap-start">
+                    <DemoCard
+                      demo={demo}
+                      index={index}
+                      isFavorite={favorites.includes(demo.id)}
+                      onToggleFavorite={() => toggleFavorite(demo.id)}
+                    />
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                    {categoryDemos.map((demo, index) => (
-                      <DemoCard 
-                        key={demo.id} 
-                        demo={demo} 
-                        index={index}
-                        isFavorite={favorites.includes(demo.id)}
-                        onToggleFavorite={() => toggleFavorite(demo.id)}
-                      />
-                    ))}
-                  </div>
-                </div>
-              );
-            })
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {filteredDemos.map((demo, index) => (
-                <DemoCard 
-                  key={demo.id} 
-                  demo={demo} 
-                  index={index}
-                  isFavorite={favorites.includes(demo.id)}
-                  onToggleFavorite={() => toggleFavorite(demo.id)}
-                />
-              ))}
+                ))}
+              </RowSlider>
             </div>
+          ))}
+          {rows.length === 0 && (
+            <p className="py-16 text-center text-sm text-white/60">No software matches your search.</p>
           )}
         </div>
       </section>
+
 
       {/* Reference marketplace sections (added below product grid, keeping design intact) */}
       <div className="max-w-7xl mx-auto">
