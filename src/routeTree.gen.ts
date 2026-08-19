@@ -15,7 +15,6 @@ import { Route as MarketplaceManagerRouteImport } from './routes/marketplace-man
 import { Route as MarketplaceRouteImport } from './routes/marketplace'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ContactRouteImport } from './routes/contact'
-import { Route as BossPanelRouteImport } from './routes/boss-panel'
 import { Route as SplatRouteImport } from './routes/$'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
@@ -128,11 +127,6 @@ const LoginRoute = LoginRouteImport.update({
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const BossPanelRoute = BossPanelRouteImport.update({
-  id: '/boss-panel',
-  path: '/boss-panel',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SplatRoute = SplatRouteImport.update({
@@ -599,7 +593,6 @@ const AuthenticatedAwardsIdEditRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
-  '/boss-panel': typeof BossPanelRoute
   '/contact': typeof ContactRoute
   '/login': typeof LoginRoute
   '/marketplace': typeof MarketplaceRoute
@@ -690,7 +683,6 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
-  '/boss-panel': typeof BossPanelRoute
   '/contact': typeof ContactRoute
   '/login': typeof LoginRoute
   '/marketplace': typeof MarketplaceRoute
@@ -782,7 +774,6 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/$': typeof SplatRoute
-  '/boss-panel': typeof BossPanelRoute
   '/contact': typeof ContactRoute
   '/login': typeof LoginRoute
   '/marketplace': typeof MarketplaceRoute
@@ -875,7 +866,6 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/$'
-    | '/boss-panel'
     | '/contact'
     | '/login'
     | '/marketplace'
@@ -966,7 +956,6 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/$'
-    | '/boss-panel'
     | '/contact'
     | '/login'
     | '/marketplace'
@@ -1057,7 +1046,6 @@ export interface FileRouteTypes {
     | '/'
     | '/_authenticated'
     | '/$'
-    | '/boss-panel'
     | '/contact'
     | '/login'
     | '/marketplace'
@@ -1150,7 +1138,6 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   SplatRoute: typeof SplatRoute
-  BossPanelRoute: typeof BossPanelRoute
   ContactRoute: typeof ContactRoute
   LoginRoute: typeof LoginRoute
   MarketplaceRoute: typeof MarketplaceRoute
@@ -1208,13 +1195,6 @@ declare module '@tanstack/react-router' {
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/boss-panel': {
-      id: '/boss-panel'
-      path: '/boss-panel'
-      fullPath: '/boss-panel'
-      preLoaderRoute: typeof BossPanelRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$': {
@@ -1990,7 +1970,6 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   SplatRoute: SplatRoute,
-  BossPanelRoute: BossPanelRoute,
   ContactRoute: ContactRoute,
   LoginRoute: LoginRoute,
   MarketplaceRoute: MarketplaceRoute,
